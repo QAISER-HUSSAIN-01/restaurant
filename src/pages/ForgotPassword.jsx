@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import FormComponent from "components/form/FormComponent";
-import FormComponent2 from "components/form/FormComponent2";
+import FormComponent2 from "components/form/FormComponent";
 import InputText from "components/form/InputText";
 import React from "react";
 import { Link, Navigate } from "react-router-dom";

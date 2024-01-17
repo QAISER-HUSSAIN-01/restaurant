@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import FormComponent from "components/form/FormComponent";
-import FormComponent2 from "components/form/FormComponent2";
+import FormComponent2 from "components/form/FormComponent";
 import InputText from "components/form/InputText";
 import React from "react";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ export default function Login() {
   const customActions = <Link to={"/forgotpassword"}>forgot password ?</Link>;
   const handleSubmit = async () => {
     setLocalItem("token", true);
-    navigate("/dashboard");
+    navigate("/");
   };
   return (
     <div className="flex justify-center align-center h-100">

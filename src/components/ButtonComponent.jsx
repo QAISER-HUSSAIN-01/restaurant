@@ -8,7 +8,7 @@ export default function ButtonComponent({
   disabled,
   icon,
   text,
-  handleClick
+  onClick
 }) {
   return (
     <Button
@@ -18,7 +18,7 @@ export default function ButtonComponent({
       icon={icon}
       disabled={disabled}
       shape={shape}
-      onClick={handleClick}
+      onClick={onClick}
     >
       {text}
     </Button>

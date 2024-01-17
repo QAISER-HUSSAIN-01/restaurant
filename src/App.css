@@ -575,6 +575,40 @@
   background-color: #17a2b8;
 }
 
+
+/* box shadow */
+
+.shadow-1{
+  box-shadow: 1px 1px 2px lightgrey,-1px -1px 3px lightgrey;
+}
+.shadow-2{
+  box-shadow: 2px 2px 2px lightgrey,-2px -2px 3px lightgrey;
+}
+.shadow-3{
+  box-shadow: 3px 3px 6px lightgrey,-3px -3px 6px lightgrey;
+}
+
+/* border radius */
+
+.radius-1{
+  border-radius: 5px;
+}
+.radius-2{
+  border-radius: 10px;
+}
+.radius-3{
+  border-radius: 15px;
+}
+.radius-4{
+  border-radius: 20px;
+}
+.radius-5{
+  border-radius: 25px;
+}
+.radius-6{
+  border-radius: 30px;
+}
+
 /* line height*/
 
 .line-h-0 {

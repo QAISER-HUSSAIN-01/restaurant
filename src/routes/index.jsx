@@ -45,8 +45,8 @@ export default function AppRoutes() {
           }
         >
           <Route
-            // index
-            path="dashboard"
+            index
+            path=""
             element={
               <PrivateComponent>
                 <Dashboard />

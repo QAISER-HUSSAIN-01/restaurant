@@ -15,7 +15,6 @@ export default function Sidebar({ hide, setHide }) {
     >
       <Col className="logo-container">
         <AlibabaOutlined className="logo" />
-        
       </Col>
       <Divider />
       <Menu

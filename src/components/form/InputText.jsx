@@ -4,20 +4,18 @@ export default function InputText({
   label,
   placeholder,
   name,
-  value,
   disabled,
-  onChange,
   min,
   max,
-  validation, // disabled if pattern is enabled
   pattern,
   required,
 }) {
   return (
     <Form.Item
+  
       label={label}
       name={name}
-      initialValue={value}
+      // initialValue={value}
       rules={[
         { required: required, message: `${label} is required!` },
         { min: min, message: `Minimum length must be ${min}` },
@@ -29,7 +27,7 @@ export default function InputText({
       <Input
         // onChangeCapture={(e) => onChange(e, validation)}  //uncomment to work with you own useState
         disabled={disabled}
-        placeholder={label}
+        placeholder={placeholder || label}
       />
     </Form.Item>
   );

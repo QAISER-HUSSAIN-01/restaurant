@@ -1,153 +1,54 @@
-import React, { useEffect, useState } from "react";
-import {
-  checkValidation,
-  transformDataIntoInitialFields,
-} from "utils/functions";
-import FieldsComponent from "./FieldsComponent";
-import { Button, Col, Row, Form } from "antd";
-import InputText from "./InputText";
-import InputSelect from "./InputSelect";
-import InputCheckbox from "./InputCheckbox";
-import InputPassword from "./InputPassword";
-import InputTextarea from "./InputTextarea";
+import React from "react";
+import { Button, Col, Row, Form, Space } from "antd";
 
-export default function FormComponent({ fields, path, submit, reset }) {
-  const [loader, setLoader] = useState(false);
-
-  const [formData, setFormData] = useState({});
-
-  const handleTextField = ({ target: { name, value } }, validation) => {
-    const sanitized = checkValidation(value, validation);
-    setFormData({ ...formData, [name]: sanitized });
-  };
-
-  const handleSelectField = (value, name) => {
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleCheckbox = ({ target: { name, checked } }) => {
-    setFormData({ ...formData, [name]: checked });
-  };
-
+export default function FormComponent({
+  form,
+  isLoading,
+  handleSubmit,
+  submit,
+  reset,
+  children,
+  customAction,
+  validate,
+  initialValues,
+}) {
   const handleFormData = (values) => {
-    // e.preventDefault();
-    setLoader(true);
-    setTimeout(() => {
-      setLoader(false);
-    }, [2000]);
-    console.log("formData", values);
+    handleSubmit(values);
   };
-
-  const handleReset = () => setFormData(transformDataIntoInitialFields(fields));
-
-  useEffect(() => {
-    setFormData(transformDataIntoInitialFields(fields));
-  }, []);
 
   return (
     <Form
+      form={form}
       onFinish={(values) => handleFormData(values)}
       layout="vertical"
-      className="form"
+      className="bg-white p-2 radius-1"
       autoComplete="off"
+      onValuesChange={(change, values) => {
+        if (validate) {
+          validate(change, values);
+        }
+      }}
+      initialValues={initialValues}
+      // validateTrigger={['onBlur']}
     >
-      {fields?.length == 0 ? (
-        <div>Form is Empty!</div>
-      ) : (
-        <Row gutter={[10, 10]} className="align-center">
-          {fields?.map(
-            ({
-              label,
-              type,
-              placeholder,
-              name,
-              startIcon,
-              endIcon,
-              validation,
-              max,
-              min,
-              showCount,
-              required,
-              responsive,
-            }) => (
-              <FieldsComponent
-                handleTextField={handleTextField}
-                handleSelectField={handleSelectField}
-                handleCheckbox={handleCheckbox}
-                key={name}
-                label={label}
-                type={type}
-                placeholder={label}
-                name={name}
-                value={formData[name]}
-                startIcon={startIcon}
-                endIcon={endIcon}
-                validation={validation}
-                min={min}
-                max={max}
-                showCount={showCount}
-                required={required}
-                responsive={responsive}
-              />
-            )
+      {children}
+      <Row gutter={[10, 0]} className="space-between mt-2 p-2">
+        {customAction ? customAction : <div></div>}
+        <Space>
+          <Col>
+            <Button loading={isLoading} htmlType="submit" type="primary">
+              {submit || "Submit"}
+            </Button>
+          </Col>
+          {reset !== false && (
+            <Col>
+              <Button htmlType="reset" danger>
+                {reset || "Reset"}
+              </Button>
+            </Col>
           )}
-        </Row>
-      )}
-      {/* <br /> */}
-      <Row gutter={[10, 0]} className="justify-end">
-        <Col>
-          <Button loading={loader} htmlType="submit" type="primary">
-            {submit || "Submit"}
-          </Button>
-        </Col>
-        <Col>
-          <Button htmlType="reset" danger>
-            {reset || "Reset"}
-          </Button>
-        </Col>
+        </Space>
       </Row>
     </Form>
   );
 }
-
-// {fields?.length == 0 ? (
-//   <div>Form is Empty!</div>
-// ) : (
-//   <Row gutter={[10, 10]} className="align-center">
-//     {fields?.map(
-//       ({
-//         label,
-//         type,
-//         placeholder,
-//         name,
-//         value,
-//         startIcon,
-//         endIcon,
-//         validation,
-//         maxLength,
-//         showCount,
-//         required,
-//         responsive,
-//       }) => (
-//         <FieldsComponent
-//           handleTextField={handleTextField}
-//           handleSelectField={handleSelectField}
-//           handleCheckbox={handleCheckbox}
-//           key={name}
-//           label={label}
-//           type={type}
-//           placeholder={label}
-//           name={name}
-//           value={formData[name]}
-//           startIcon={startIcon}
-//           endIcon={endIcon}
-//           validation={validation}
-//           maxLength={maxLength}
-//           showCount={showCount}
-//           required={required}
-//           responsive={responsive}
-//         />
-//       )
-//     )}
-//   </Row>
-// )}

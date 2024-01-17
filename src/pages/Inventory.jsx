@@ -1,101 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "antd";
-import FormComponent2 from "components/form/FormComponent2";
+import FormComponent from "components/form/FormComponent";
 import InputText from "components/form/InputText";
-import { ALPHANUMERIC, NUMERIC } from "utils/constants";
-import InputSelect from "components/form/InputSelect";
-import InputPassword from "components/form/InputPassword";
-import InputCheckbox from "components/form/InputCheckbox";
 import TableComponent from "components/TableComponent";
 import { colFn, rowFn } from "utils/dummy";
+import { Form } from "antd";
+import ButtonComponent from "components/ButtonComponent";
+import InputTextarea from "components/form/InputTextarea";
 
 export default function Inventory() {
-  const initialData = {
-    firstname: "",
-    lastname: "",
-    fathername: "",
-    contactnumber: null,
-    cities: "",
+  const [form] = Form.useForm();
+  const handleSubmit = (values) => {
+    console.log(values);
   };
+
+  const validate = (change, values) => {
+    if (change.cities == "two") {
+      form.setFieldValue("lastname", "male");
+    }
+  };
+
+  const onEdit = () => {
+    const obj = {
+      firstname: "Qaiser",
+      lastname: "Hussain",
+      fathername: "M Hussain",
+      contactnumber: "03012709842",
+      cities: "two",
+      description: "description description description",
+      employee: true,
+    };
+    form.setFieldsValue({ ...obj });
+  };
+
   const fields = (
     <Row gutter={[10, 0]}>
       <Col xs={24} md={12} lg={8}>
-        <InputText
-          label={"First Name"}
-          name={"firstname"}
-          value={initialData.firstname}
-          pattern={ALPHANUMERIC}
-          required={true}
-        />
+        <InputText label={"First Name"} name={"firstname"} />
       </Col>
       <Col xs={24} md={12} lg={8}>
-        <InputText
-          label={"Last Name"}
-          name={"lastname"}
-          value={initialData.lastname}
-          required={true}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputText
-          label={"Father Name"}
-          name={"fathername"}
-          value={initialData.fathername}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputText
-          label={"Contact Number"}
-          name={"contactnumber"}
-          value={initialData.fathername}
-          pattern={NUMERIC}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputSelect
-          label={"City List"}
-          name={"cities"}
-          value={initialData.cities}
-          required={true}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputPassword
-          label={"Password"}
-          name={"password"}
-          value={initialData.password}
-          required={true}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputCheckbox
-          label={"Is False"}
-          name={"isfalse"}
-          value={initialData.isfalse}
-          required={true}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputCheckbox
-          label={"Is True"}
-          name={"istrue"}
-          value={initialData.istrue}
-        />
-      </Col>
-      <Col xs={24} md={12} lg={8}>
-        <InputCheckbox
-          label={"Is Okay"}
-          name={"isokay"}
-          value={initialData.isokay}
-        />
+        <InputText label={"Last Name"} name={"lastname"} />
       </Col>
     </Row>
   );
+
   return (
     <div>
-      <FormComponent2 initialData={initialData}>{fields}</FormComponent2>
+      <FormComponent
+        form={form}
+        handleSubmit={handleSubmit}
+        // validate={validate}
+      >
+        {fields}
+      </FormComponent>
       <br />
-      <TableComponent columns={colFn()} rows={rowFn()}  />
+      <TableComponent columns={colFn()} rows={rowFn()} />
     </div>
   );
 }

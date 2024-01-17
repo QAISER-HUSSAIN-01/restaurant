@@ -5,9 +5,7 @@ export default function InputTextarea({
   label,
   placeholder,
   name,
-  value,
   disabled,
-  onChange,
   min,
   max,
   showCount,
@@ -17,7 +15,7 @@ export default function InputTextarea({
     <Form.Item
       label={label}
       name={name}
-      initialValue={value}
+      // initialValue={value}
       rules={[
         { required: required, message: `${label} is required!` },
         { min: min, message: `Minimum length required ${min}` },
@@ -26,8 +24,8 @@ export default function InputTextarea({
       ]}
     >
       <Input.TextArea
-        placeholder={placeholder}
-        onChangeCapture={(e) => onChange(e)}
+        placeholder={placeholder || label}
+        // onChangeCapture={(e) => onChange(e)}
         disabled={disabled}
         // showCount={showCount}
         // maxLength={max}

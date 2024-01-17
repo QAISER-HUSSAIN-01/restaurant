@@ -8,14 +8,16 @@ import {
 import { Link } from "react-router-dom";
 export const sidebarList = [
   {
-    key: "/dashboard",
+    key: "/",
     icon: <DashboardOutlined />,
-    label: <Link to="dashboard">Dashboard</Link>,
+    label: <Link to="">Dashboard</Link>,
+   
   },
   {
     key: "/inventory",
     icon: <AccountBookOutlined />,
     label: <Link to="inventory">Inventory</Link>,
+    
   },
   {
     key: "/components",
@@ -26,7 +28,7 @@ export const sidebarList = [
     key: "/setting",
     icon: <SettingOutlined />,
     label: <Link to="setting">Setting</Link>,
-  }
+  },
 ];
 
 export const rowFn = () => {

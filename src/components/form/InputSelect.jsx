@@ -4,9 +4,7 @@ export default function InputSelect({
   label,
   placeholder,
   name,
-  value,
   disabled,
-  onChange,
   required,
   options
 }) {
@@ -14,7 +12,7 @@ export default function InputSelect({
     <Form.Item
       label={label}
       name={name}
-      initialValue={value}
+      // initialValue={value}
       rules={[{ required: required, message: `${label} is required!` }]}
       className="ant-form-item-custom-style"
     >

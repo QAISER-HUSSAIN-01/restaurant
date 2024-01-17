@@ -3,14 +3,12 @@ import { Checkbox, Form, message } from "antd";
 export default function InputCheckbox({
   label,
   name,
-  value,
   disabled,
-  onChange,
   required,
 }) {
   return (
     <Form.Item
-      initialValue={value}
+      // initialValue={value}
       name={name}
       valuePropName="checked"
       rules={[{ required: required, message: `${label} is required!` }]}

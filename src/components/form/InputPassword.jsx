@@ -5,12 +5,9 @@ export default function InputPassword({
   label,
   placeholder,
   name,
-  value,
   disabled,
-  onChange,
   min,
   max,
-  validation,
   pattern,
   required,
 }) {
@@ -18,16 +15,17 @@ export default function InputPassword({
     <Form.Item
       label={label}
       name={name}
-      initialValue={value}
+      // initialValue={value}
       rules={[
         { required: required, message: `${label} is required!` },
         { pattern: pattern?.allow, message: pattern?.message },
       ]}
+    
     >
       <Input.Password
         // onChangeCapture={(e) => onChange(e, validation)}
         disabled={disabled}
-        placeholder={label}
+        placeholder={placeholder || label}
       />
     </Form.Item>
   );
