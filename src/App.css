@@ -358,7 +358,7 @@
 
 /* Padding utility classes */
 .p-0{
-  padding: 0;
+  padding: 0px !important;
 }
 .p-1 {
   padding: 0.25rem;

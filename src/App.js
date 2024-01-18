@@ -1,11 +1,24 @@
+import { ConfigProvider, theme } from "antd";
 import ErrorBoundary from "shared/ErrorBoundary";
 import AppRoutes from "routes";
 import "./App.css";
 import "assets/style/utilities.css";
 function App() {
+  const isDark = false;
   return (
     <ErrorBoundary>
-      <AppRoutes />
+      <ConfigProvider
+        theme={{
+          algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          // components:{
+          //   Layout:{
+              
+          //   }
+          // }
+        }}
+      >
+        <AppRoutes />
+      </ConfigProvider>
     </ErrorBoundary>
   );
 }

@@ -7,7 +7,7 @@ import { colFn, rowFn } from "utils/dummy";
 import { Form } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import InputTextarea from "components/form/InputTextarea";
-
+import { green, blue, gold } from "@ant-design/colors";
 export default function Inventory() {
   const [form] = Form.useForm();
   const handleSubmit = (values) => {

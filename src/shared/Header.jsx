@@ -1,10 +1,11 @@
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, Layout, Row } from "antd";
+import { Col, Layout, Row, theme } from "antd";
 import DropdownComponent from "components/DropdownComponent";
 import { confirm } from "components/Modals";
 import { Link, useNavigate } from "react-router-dom";
 import { removeLocalItem } from "utils/functions";
 export default function Header({ handleSidebar }) {
+  const {token} = theme.useToken();
   const navigate = useNavigate();
   const logout = () => {
     removeLocalItem("token");
@@ -28,7 +29,7 @@ export default function Header({ handleSidebar }) {
 
   return (
     // h-30 line-h-3
-    <Layout.Header className="header"> 
+    <Layout.Header className="header" > 
       <Row justify={"space-between"}>
         <Col span={1} className="column">
           <MenuOutlined onClick={handleSidebar} className="header-icon" />
