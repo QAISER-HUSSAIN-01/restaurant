@@ -2,12 +2,12 @@ import { Modal, Row } from "antd";
 import { WarningFilled, InfoCircleFilled } from "@ant-design/icons";
 import ButtonComponent from "./ButtonComponent";
 
-export const confirm = (message,fn) =>
+export const confirm = (message,onOk) =>
   Modal.confirm({
     centered: true,
     title: "Confirmation!",
     content: message || "Are you sure you want to delete ?",
-    onOk: fn,
+    onOk: onOk,
   });
 
 export const warning = (prop) =>

@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "antd";
-import FormComponent from "components/form/FormComponent";
 import InputText from "components/form/InputText";
-import TableComponent from "components/TableComponent";
 import { colFn, rowFn } from "utils/dummy";
 import { Form } from "antd";
-import ButtonComponent from "components/ButtonComponent";
-import InputTextarea from "components/form/InputTextarea";
-import { green, blue, gold } from "@ant-design/colors";
+import FormAndTable from "components/FormAndTable";
+import InputSelect from "components/form/InputSelect";
 export default function Inventory() {
   const [form] = Form.useForm();
+
   const handleSubmit = (values) => {
     console.log(values);
   };
 
-  const validate = (change, values) => {
-    if (change.cities == "two") {
-      form.setFieldValue("lastname", "male");
-    }
-  };
+  // const validate = (change, values) => {
+  //   if (change.cities == "two") {
+  //     form.setFieldValue("lastname", "male");
+  //   }
+  // };
 
   const onEdit = () => {
     const obj = {
@@ -39,22 +37,19 @@ export default function Inventory() {
         <InputText label={"First Name"} name={"firstname"} />
       </Col>
       <Col xs={24} md={12} lg={8}>
+        <InputSelect label={"City"} name={"cities"} />
+      </Col>
+      <Col xs={24} md={12} lg={8}>
         <InputText label={"Last Name"} name={"lastname"} />
       </Col>
     </Row>
   );
 
   return (
-    <div>
-      <FormComponent
-        form={form}
-        handleSubmit={handleSubmit}
-        // validate={validate}
-      >
-        {fields}
-      </FormComponent>
-      <br />
-      <TableComponent columns={colFn()} rows={rowFn()} />
-    </div>
+    <FormAndTable
+      form={{ children: fields, handleSubmit, form }}
+      table={{ columns: colFn(), rows: rowFn() }}
+    />
+    
   );
 }

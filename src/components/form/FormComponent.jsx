@@ -22,7 +22,6 @@ export default function FormComponent({
         form={form}
         onFinish={(values) => handleFormData(values)}
         layout="vertical"
-        className=""
         autoComplete="off"
         onValuesChange={(change, values) => {
           if (validate) {
