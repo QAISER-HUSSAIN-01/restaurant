@@ -2,7 +2,6 @@ import { ConfigProvider, theme } from "antd";
 import ErrorBoundary from "shared/ErrorBoundary";
 import AppRoutes from "routes";
 import "./App.css";
-import "assets/style/utilities.css";
 function App() {
   const isDark = false;
   return (
@@ -12,7 +11,7 @@ function App() {
           algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
           // components:{
           //   Layout:{
-              
+
           //   }
           // }
         }}

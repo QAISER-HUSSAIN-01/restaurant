@@ -1,16 +1,18 @@
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, Layout, Row, theme } from "antd";
+import { Col, Layout, Row, Space, Switch, theme } from "antd";
 import DropdownComponent from "components/DropdownComponent";
 import { confirm } from "components/Modals";
 import { Link, useNavigate } from "react-router-dom";
 import { removeLocalItem } from "utils/functions";
 export default function Header({ handleSidebar }) {
-  const {token} = theme.useToken();
   const navigate = useNavigate();
+  const { token } = theme.useToken();
+
   const logout = () => {
     removeLocalItem("token");
     navigate("/login");
-  }
+  };
+
   const items = [
     { key: "1", label: "...menu" },
     { key: "2", label: <Link to={"setting"}>Setting</Link> },
@@ -29,18 +31,27 @@ export default function Header({ handleSidebar }) {
 
   return (
     // h-30 line-h-3
-    <Layout.Header className="header" > 
+    <Layout.Header className="header">
       <Row justify={"space-between"}>
         <Col span={1} className="column">
           <MenuOutlined onClick={handleSidebar} className="header-icon" />
         </Col>
-        <Col span={1} className="column">
-          <DropdownComponent
-            list={items}
-            icon={<UserOutlined className="header-icon" />}
-            // text={'Profile'}
-          />
-        </Col>
+        <Space>
+          {/* <Col span={1} className="column">
+            <Switch
+              checkedChildren="Light"
+              unCheckedChildren="Dark"
+              onClick={() => {}}
+            />
+          </Col> */}
+          <Col span={1} className="column">
+            <DropdownComponent
+              list={items}
+              icon={<UserOutlined className="header-icon" />}
+              // text={'Profile'}
+            />
+          </Col>
+        </Space>
       </Row>
     </Layout.Header>
   );

@@ -12,7 +12,7 @@ export default function DashboardLayout() {
     <Layout hasSider className="main-layout">
       <Sidebar hide={hide} setHide={setHide} />
       <Layout>
-        <Header handleSidebar={handleSidebar} />
+        <Header handleSidebar={handleSidebar}/>
         <Layout.Content style={{ padding: "10px", overflowY: "auto" }}>
           <Outlet />
         </Layout.Content>

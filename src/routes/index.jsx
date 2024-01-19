@@ -5,7 +5,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Private from "./Private";
 import DashboardLayout from "layout/DashboardLayout";
 import Inventory from "pages/Inventory";
 import Dashboard from "pages/Dashboard";
@@ -15,6 +14,7 @@ import ForgotPassword from "pages/ForgotPassword";
 import ChangePassword from "pages/ChangePassword";
 import Setting from "pages/Setting";
 import Components from "pages/Components";
+import Private from "./Private";
 
 export default function AppRoutes() {
   return (
