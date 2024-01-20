@@ -22,7 +22,7 @@ export default function InputSelect({
         showSearch
         disabled={disabled}
         // onChange={(val) => onChange(val, name)}
-        options={[
+        options={options || [
           { value: "", label: "Select" },
           { value: "one", label: "label one" },
           { value: "two", label: "label two" },

@@ -1,13 +1,17 @@
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, Layout, Row, Space, Switch, theme } from "antd";
+import { Col, Layout, Menu, Row, Space, Switch, theme } from "antd";
 import DropdownComponent from "components/DropdownComponent";
 import { confirm } from "components/Modals";
 import { Link, useNavigate } from "react-router-dom";
 import { removeLocalItem } from "utils/functions";
+import {handleTheme} from '../store/slices/theme';
+import {useDispatch, useSelector} from 'react-redux';
+
 export default function Header({ handleSidebar }) {
   const navigate = useNavigate();
   const { token } = theme.useToken();
-
+  const dispatch = useDispatch();
+  const isDark = useSelector((state)=>state.theme.isDark);
   const logout = () => {
     removeLocalItem("token");
     navigate("/login");
@@ -31,20 +35,22 @@ export default function Header({ handleSidebar }) {
 
   return (
     // h-30 line-h-3
-    <Layout.Header className="header">
+    <Layout.Header className="header p-0">
+      {/* <Menu theme="light"> */}
       <Row justify={"space-between"}>
-        <Col span={1} className="column">
+        <Col span={1} className="text-center">
           <MenuOutlined onClick={handleSidebar} className="header-icon" />
         </Col>
         <Space>
-          {/* <Col span={1} className="column">
+          <Col span={1} className="column">
             <Switch
               checkedChildren="Light"
               unCheckedChildren="Dark"
-              onClick={() => {}}
+              onClick={() => {dispatch(handleTheme())}}
+              defaultValue={isDark}
             />
-          </Col> */}
-          <Col span={1} className="column">
+          </Col>
+          <Col span={1} className="text-center">
             <DropdownComponent
               list={items}
               icon={<UserOutlined className="header-icon" />}
@@ -53,6 +59,7 @@ export default function Header({ handleSidebar }) {
           </Col>
         </Space>
       </Row>
+      {/* </Menu> */}
     </Layout.Header>
   );
 }

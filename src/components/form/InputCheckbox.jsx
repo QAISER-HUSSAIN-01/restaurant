@@ -12,6 +12,7 @@ export default function InputCheckbox({
       name={name}
       valuePropName="checked"
       rules={[{ required: required, message: `${label} is required!` }]}
+      className="mb-0"
     >
       {/* onChange={onChange} */}
       <Checkbox disabled={disabled}>

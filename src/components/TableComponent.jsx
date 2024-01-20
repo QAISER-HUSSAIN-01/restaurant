@@ -1,16 +1,16 @@
 import React from "react";
 import { Card, Table } from "antd";
 
-export default function TableComponent({ columns, rows, loading }) {
+export default function TableComponent({ columns, rows, loading, expandable }) {
   return (
-    <Card bordered={false}>
+    // <Card bordered={false}>
       <Table
         columns={columns}
         dataSource={rows}
         scroll={{ x: 500, y: 400 }}
         bordered
         loading={loading}
-        expandable={{
+        expandable={expandable && {
           expandedRowRender: (record) => {
             console.log(record);
           },
@@ -25,6 +25,6 @@ export default function TableComponent({ columns, rows, loading }) {
           showTotal: (total, range) => {},
         }}
       />
-    </Card>
+    // </Card>
   );
 }

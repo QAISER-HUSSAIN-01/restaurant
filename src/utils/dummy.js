@@ -11,18 +11,16 @@ export const sidebarList = [
     key: "/",
     icon: <DashboardOutlined />,
     label: <Link to="">Dashboard</Link>,
-   
   },
   {
     key: "/inventory",
     icon: <AccountBookOutlined />,
     label: <Link to="inventory">Inventory</Link>,
-    
   },
   {
-    key: "/components",
+    key: "/setup",
     icon: <GroupOutlined />,
-    label: <Link to="components">Components</Link>,
+    label: <Link to="setup">Setup</Link>,
   },
   {
     key: "/setting",

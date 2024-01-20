@@ -15,6 +15,7 @@ import ChangePassword from "pages/ChangePassword";
 import Setting from "pages/Setting";
 import Components from "pages/Components";
 import Private from "./Private";
+import Setup from "pages/setup";
 
 export default function AppRoutes() {
   return (
@@ -45,6 +46,7 @@ export default function AppRoutes() {
           <Route path="" element={<Dashboard />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="components" element={<Components />} />
+          <Route path="setup" element={<Setup />} />
           <Route path="setting" element={<Setting />} />
           <Route path="changepassword" element={<ChangePassword />} />
         </Route>
