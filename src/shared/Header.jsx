@@ -4,14 +4,14 @@ import DropdownComponent from "components/DropdownComponent";
 import { confirm } from "components/Modals";
 import { Link, useNavigate } from "react-router-dom";
 import { removeLocalItem } from "utils/functions";
-import {handleTheme} from '../store/slices/theme';
-import {useDispatch, useSelector} from 'react-redux';
+import { handleTheme } from "../store/slices/theme";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Header({ handleSidebar }) {
   const navigate = useNavigate();
   const { token } = theme.useToken();
   const dispatch = useDispatch();
-  const isDark = useSelector((state)=>state.theme.isDark);
+  const isDark = useSelector((state) => state.theme.isDark);
   const logout = () => {
     removeLocalItem("token");
     navigate("/login");
@@ -35,18 +35,20 @@ export default function Header({ handleSidebar }) {
 
   return (
     // h-30 line-h-3
-    <Layout.Header className="header p-0">
+    <Layout.Header className="p-0">
       {/* <Menu theme="light"> */}
       <Row justify={"space-between"}>
         <Col span={1} className="text-center">
           <MenuOutlined onClick={handleSidebar} className="header-icon" />
         </Col>
-        <Space>
+        <Space className="pr-3">
           <Col span={1} className="column">
             <Switch
               checkedChildren="Light"
               unCheckedChildren="Dark"
-              onClick={() => {dispatch(handleTheme())}}
+              onClick={() => {
+                dispatch(handleTheme());
+              }}
               defaultValue={isDark}
             />
           </Col>

@@ -8,10 +8,10 @@ export default function Sidebar({ hide, setHide }) {
   return (
     <Layout.Sider
       className="sidebar p-2"
-      theme="light"
       collapsed={hide}
       breakpoint="sm"
       onBreakpoint={(param) => setHide(param)}
+      theme="light"
     >
       <Col className="logo-container">
         <AlibabaOutlined className="logo" />
@@ -21,7 +21,7 @@ export default function Sidebar({ hide, setHide }) {
         theme="light"
         items={sidebarList || []}
         className="menu"
-        // defaultOpenKeys={['/dashboard']}
+        // defaultOpenKeys={['/inventory/grn']}
         selectedKeys={[location.pathname]}
       />
     </Layout.Sider>

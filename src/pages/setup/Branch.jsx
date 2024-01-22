@@ -1,4 +1,4 @@
-import { Col, Form, Row } from "antd";
+import { Card, Col, Form, Row } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import TableComponent from "components/TableComponent";
 import FormComponent from "components/form/FormComponent";
@@ -6,10 +6,7 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputText from "components/form/InputText";
 import React, { useState } from "react";
 
-
 export default function Branch() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [form] = Form.useForm();
   const initialValues = {
     Id: 0,
     Name: "",
@@ -17,8 +14,13 @@ export default function Branch() {
     UniqueId: "",
     HeadOffice: true,
     Enabled: true,
-    Deleted: true
-  }
+    Deleted: true,
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [rows, setRows] = useState([]);
+  const [form] = Form.useForm();
+
   const columns = [
     {
       key: "1",
@@ -44,6 +46,7 @@ export default function Branch() {
       dataIndex: "Enabled",
     },
   ];
+
   const fields = (
     <>
       <Row gutter={[20, 0]}>
@@ -80,7 +83,7 @@ export default function Branch() {
   };
 
   return (
-    <>
+    <Card>
       <FormComponent
         children={fields}
         handleSubmit={handleSubmit}
@@ -90,7 +93,8 @@ export default function Branch() {
         initialValues={initialValues}
         // customAction={customAction}
       />
-      <TableComponent columns={columns || []} rows={[]} />
-    </>
+      <br />
+      <TableComponent columns={columns || []} rows={rows || []} />
+    </Card>
   );
 }

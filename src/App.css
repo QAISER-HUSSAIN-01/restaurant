@@ -1,6 +1,6 @@
 .main-layout {
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .header {
   /* background-color: #fff !important; */
@@ -11,6 +11,10 @@
 }
 .sidebar {
   overflow: auto;
+  /* position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0; */
 }
 .header-icon {
   font-size: 18px;
@@ -29,9 +33,12 @@
 .menu {
   border: none !important;
 }
-/* .ant-menu-item-icon{
-    color: rgba(0, 0, 255, 0.796) !important;
-} */
+
+
+/* .ant-menu-submenu-popup{} */
+
+/* .ant-menu-submenu-placement-rightTop{} */
+
 .loading_container {
   display: flex;
   align-items: center;
@@ -128,19 +135,19 @@
 .pointer {
   cursor: pointer;
 }
-.h-10{
+.h-10 {
   height: 10px;
 }
-.h-20{
+.h-20 {
   height: 20px;
 }
-.h-30{
+.h-30 {
   height: 30px;
 }
-.h-40{
+.h-40 {
   height: 40px;
 }
-.h-50{
+.h-50 {
   height: 50px;
 }
 .h-100 {
@@ -210,7 +217,7 @@
 
 /* bg-colors */
 
-.bg-white{
+.bg-white {
   background-color: white;
 }
 
@@ -269,7 +276,7 @@
 .mt-10 {
   margin-top: 4.5rem;
 }
-.mb-0{
+.mb-0 {
   margin-bottom: 0;
 }
 .mb-1 {
@@ -359,7 +366,7 @@
 }
 
 /* Padding utility classes */
-.p-0{
+.p-0 {
   padding: 0px !important;
 }
 .p-1 {
@@ -527,6 +534,33 @@
 .pr-3 {
   padding-right: 1rem;
 }
+.pr-4 {
+  padding-right: 1.5rem;
+}
+
+.pr-5 {
+  padding-right: 2rem;
+}
+
+.pr-6 {
+  padding-right: 2.5rem;
+}
+
+.pr-7 {
+  padding-right: 3rem;
+}
+
+.pr-8 {
+  padding-right: 3.5rem;
+}
+
+.pr-9 {
+  padding-right: 4rem;
+}
+
+.pr-10 {
+  padding-right: 4.5rem;
+}
 
 /* Color utility classes */
 .text-primary {
@@ -577,37 +611,36 @@
   background-color: #17a2b8;
 }
 
-
 /* box shadow */
 
-.shadow-1{
-  box-shadow: 1px 1px 2px lightgrey,-1px -1px 3px lightgrey;
+.shadow-1 {
+  box-shadow: 1px 1px 2px lightgrey, -1px -1px 3px lightgrey;
 }
-.shadow-2{
-  box-shadow: 2px 2px 2px lightgrey,-2px -2px 3px lightgrey;
+.shadow-2 {
+  box-shadow: 2px 2px 2px lightgrey, -2px -2px 3px lightgrey;
 }
-.shadow-3{
-  box-shadow: 3px 3px 6px lightgrey,-3px -3px 6px lightgrey;
+.shadow-3 {
+  box-shadow: 3px 3px 6px lightgrey, -3px -3px 6px lightgrey;
 }
 
 /* border radius */
 
-.radius-1{
+.radius-1 {
   border-radius: 5px;
 }
-.radius-2{
+.radius-2 {
   border-radius: 10px;
 }
-.radius-3{
+.radius-3 {
   border-radius: 15px;
 }
-.radius-4{
+.radius-4 {
   border-radius: 20px;
 }
-.radius-5{
+.radius-5 {
   border-radius: 25px;
 }
-.radius-6{
+.radius-6 {
   border-radius: 30px;
 }
 
@@ -674,7 +707,6 @@
 .align-end {
   align-items: end;
 }
-
 
 .justify-center {
   justify-content: center;

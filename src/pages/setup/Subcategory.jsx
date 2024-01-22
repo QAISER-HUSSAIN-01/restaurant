@@ -1,4 +1,4 @@
-import { Col, Form, Row } from "antd";
+import { Card, Col, Form, Row } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import TableComponent from "components/TableComponent";
 import FormComponent from "components/form/FormComponent";
@@ -9,15 +9,17 @@ import React, { useState } from "react";
 
 export default function Subcategory() {
   const [isLoading, setIsLoading] = useState(false);
+  const [rows, setRows] = useState([]);
+
   const [form] = Form.useForm();
   const initialValues = {
     Id: 0,
-    CategoryId:0,
+    CategoryId: 0,
     Name: "",
     ShortName: "",
     Enabled: true,
-    Deleted: true
-  }
+    Deleted: true,
+  };
   const columns = [
     {
       key: "1",
@@ -79,7 +81,7 @@ export default function Subcategory() {
   };
 
   return (
-    <>
+    <Card>
       <FormComponent
         children={fields}
         handleSubmit={handleSubmit}
@@ -89,7 +91,8 @@ export default function Subcategory() {
         initialValues={initialValues}
         // customAction={customAction}
       />
-      <TableComponent columns={columns || []} rows={[]} />
-    </>
+      <br />
+      <TableComponent columns={columns || []} rows={rows || []} />
+    </Card>
   );
 }
