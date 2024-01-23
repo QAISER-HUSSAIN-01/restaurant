@@ -97,14 +97,6 @@ export default function Branch() {
     </>
   );
 
-  const customAction = (
-    <>
-      <ButtonComponent text={"Delete"} />
-      <ButtonComponent text={"Close"} />
-      <ButtonComponent text={"Print"} />
-    </>
-  );
-
   const handleSubmit = (values) => {
     setIsLoading(true);
     console.log(values);

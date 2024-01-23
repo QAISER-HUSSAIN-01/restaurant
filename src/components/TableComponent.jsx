@@ -17,7 +17,6 @@ export default function TableComponent({
   pagination,
 }) {
   const [selectedRows,setSelectedRows] = useState([]);
-  console.log(selectedRows);
   const headerContent = (
     <Row className="space-between">
       <Typography.Title level={5} className="line-h-1 mb-auto mt-auto">
@@ -81,15 +80,15 @@ export default function TableComponent({
             rowExpandable: (record) => (record.key > 2 ? true : false),
           }
         }
-        size="small"
+        size="largea"
         pagination={
           !pagination && {
             className: "px-3",
             showSizeChanger: true,
             onShowSizeChange: (currentnumber, sizenumber) => {},
-            total: 100, //rows?.length
+            total: rows?.length,
             simple: true,
-            showTotal: (total, range) => {},
+            showTotal: (total, range) => (<div>Total: {total}</div>),
           }
         }
       />

@@ -10,7 +10,7 @@ function App() {
       <ErrorBoundary>
         <ConfigProvider
           theme={{
-            algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+            algorithm: isDark ? [theme.darkAlgorithm, theme.compactAlgorithm] : theme.defaultAlgorithm,
             components: {
               Layout: {
                 headerBg: "",

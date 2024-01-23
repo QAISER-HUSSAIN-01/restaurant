@@ -42,7 +42,7 @@ export default function Header({ handleSidebar }) {
           <MenuOutlined onClick={handleSidebar} className="header-icon" />
         </Col>
         <Space className="pr-3">
-          <Col span={1} className="column">
+          {/* <Col span={1} className="column">
             <Switch
               checkedChildren="Light"
               unCheckedChildren="Dark"
@@ -51,7 +51,7 @@ export default function Header({ handleSidebar }) {
               }}
               defaultValue={isDark}
             />
-          </Col>
+          </Col> */}
           <Col span={1} className="text-center">
             <DropdownComponent
               list={items}

@@ -126,6 +126,7 @@ export const sidebarList = [
     icon: <SettingOutlined />,
     label: <Link to="setting">Setting</Link>,
   },
+
 ];
 
 export const rowFn = () => {

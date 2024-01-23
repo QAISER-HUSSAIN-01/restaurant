@@ -13,10 +13,10 @@ export default function Sidebar({ hide, setHide }) {
       onBreakpoint={(param) => setHide(param)}
       theme="light"
     >
-      <Col className="logo-container">
+      {/* <Col className="logo-container">
         <AlibabaOutlined className="logo" />
       </Col>
-      <Divider />
+      <Divider /> */}
       <Menu
         theme="light"
         items={sidebarList || []}

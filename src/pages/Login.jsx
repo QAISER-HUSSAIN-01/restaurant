@@ -16,7 +16,7 @@ export default function Login() {
   return (
     <div className="flex justify-center align-center h-100">
       <Col xs={24} sm={18} md={16} lg={6} className="login-container h-contain">
-        <Card>
+        {/* <Card> */}
           <FormComponent
             handleSubmit={handleSubmit}
             submit={"Login"}
@@ -41,7 +41,7 @@ export default function Login() {
               </Col>
             </Row>
           </FormComponent>
-        </Card>
+        {/* </Card> */}
       </Col>
     </div>
   );

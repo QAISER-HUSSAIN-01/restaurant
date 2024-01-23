@@ -13,13 +13,14 @@ export default function FormComponent({
   validate,
   initialValues,
   customActionJustify,
+  hideActions
 }) {
   const handleFormData = (values) => {
     handleSubmit(values);
   };
 
   return (
-    <Card title={title || "Form Fields"} bordered={false}>
+    <Card title={title} bordered={false}>
       <Form
         form={form}
         onFinish={(values) => handleFormData(values)}
@@ -34,29 +35,31 @@ export default function FormComponent({
         // validateTrigger={['onBlur']}
       >
         {children}
-        <Row gutter={[10, 0]} className={`justify-end mt-2`}>
-          {/* {customAction ? customAction : <div></div>} */}
-          <Space>
-            {customAction && customAction}
-            <Col>
-              <Button
-                loading={isLoading}
-                htmlType="submit"
-                type="primary"
-                disabled={isLoading}
-              >
-                {submit || "Submit"}
-              </Button>
-            </Col>
-            {reset !== false && (
+        {!hideActions && (
+          <Row gutter={[10, 0]} className={`justify-end mt-2`}>
+            {/* {customAction ? customAction : <div></div>} */}
+            <Space>
+              {customAction && customAction}
               <Col>
-                <Button htmlType="reset" danger>
-                  {reset || "Reset"}
+                <Button
+                  loading={isLoading}
+                  htmlType="submit"
+                  type="primary"
+                  disabled={isLoading}
+                >
+                  {submit || "Submit"}
                 </Button>
               </Col>
-            )}
-          </Space>
-        </Row>
+              {reset !== false && (
+                <Col>
+                  <Button htmlType="reset" danger>
+                    {reset || "Reset"}
+                  </Button>
+                </Col>
+              )}
+            </Space>
+          </Row>
+        )}
       </Form>
     </Card>
   );
