@@ -70,7 +70,7 @@ export default function Category() {
   };
 
   return (
-    <Card>
+    <>
       <FormComponent
         children={fields}
         handleSubmit={handleSubmit}
@@ -82,6 +82,6 @@ export default function Category() {
       />
       <br />
       <TableComponent columns={columns || []} rows={rows || []} />
-    </Card>
+   </>
   );
 }

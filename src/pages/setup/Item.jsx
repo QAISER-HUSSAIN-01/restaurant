@@ -134,7 +134,7 @@ export default function Item() {
   };
 
   return (
-    <Card>
+    <>
       <FormComponent
         children={fields}
         handleSubmit={handleSubmit}
@@ -146,6 +146,6 @@ export default function Item() {
       />
       <br />
       <TableComponent columns={columns || []} rows={rows || []} />
-    </Card>
+    </>
   );
 }

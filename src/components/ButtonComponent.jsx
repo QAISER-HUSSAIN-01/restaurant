@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 export default function ButtonComponent({
+  tooltip,
   type,
   shape,
   size,
@@ -8,19 +9,20 @@ export default function ButtonComponent({
   disabled,
   icon,
   text,
-  onClick
+  onClick,
 }) {
   return (
-    <Button
-      type={type || "primary"}
-      size={size}
-      loading={loading}
-      icon={icon}
-      disabled={disabled}
-      shape={shape}
-      onClick={onClick}
-    >
-      {text}
-    </Button>
+    <Tooltip title={tooltip}>
+      <Button
+        type={type || "primary"}
+        size={size}
+        loading={loading}
+        icon={icon}
+        disabled={disabled}
+        shape={shape}
+        onClick={onClick}
+        title={text}
+      />
+    </Tooltip>
   );
 }

@@ -16,7 +16,13 @@ function App() {
                 headerBg: "",
               },
               Table: {
-                headerBg: isDark ? '' : token.colorBorderSecondary,
+                // headerBg: isDark ? '' : token.colorBorderSecondary,
+                
+              },
+              Card:{
+                // headerBg: isDark ? token.blue5 : token.blue4,
+                // colorTextHeading: isDark ? '' : 'white',
+                paddingLeft:'0px'
               },
             },
           }}

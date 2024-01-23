@@ -5,6 +5,7 @@ export default function InputCheckbox({
   name,
   disabled,
   required,
+  // value
 }) {
   return (
     <Form.Item

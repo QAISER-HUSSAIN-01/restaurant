@@ -1,10 +1,10 @@
-import { Card, Col, Form, Row } from "antd";
+import { Card, Checkbox, Col, Form, Row } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import TableComponent from "components/TableComponent";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputText from "components/form/InputText";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Branch() {
   const initialValues = {
@@ -20,15 +20,19 @@ export default function Branch() {
   const [isLoading, setIsLoading] = useState(false);
   const [rows, setRows] = useState([]);
   const [form] = Form.useForm();
-
+  
   const columns = [
     {
       key: "1",
       title: "Branch Name",
       dataIndex: "Name",
-      // filters: []?.map(item=>{return{text:item?.Name,value:item?.Name}}),
+      // filters: []?.map((item) => {
+      //   return { text: item?.Name, value: item?.Name };
+      // }),
       // filterSearch: true,
       // onFilter: (value, record) => record.Name.startsWith(value),
+      // ellipsis: true,
+      // sorter: (a, b) => a.Name - b.Name
     },
     {
       key: "2",
@@ -37,15 +41,42 @@ export default function Branch() {
     },
     {
       key: "3",
-      title: "Is Heade Office",
+      title: "Is Head Office",
       dataIndex: "HeadOffice",
+      render: (_,record)=>(<Checkbox checked={record.HeadOffice} />)
     },
     {
       key: "4",
       title: "Is Active",
       dataIndex: "Enabled",
+      render: (_,record)=>(<Checkbox checked={record.Enabled} />)
+
     },
   ];
+
+  const tabledata = [
+    {
+      key:'1',
+      ShortName:'simens chourangi',
+      Name:'Shershah Road',
+      HeadOffice:true,
+      Enabled:true
+    },
+    {
+      key:'2',
+      Name:'Maripur',
+      ShortName:'gulbai',
+      HeadOffice:false,
+      Enabled:true
+    },
+    {
+      key:'3',
+      Name:'Defence Housing Authority',
+      ShortName:'DHA',
+      HeadOffice:false,
+      Enabled:false
+    }
+  ]
 
   const fields = (
     <>
@@ -82,9 +113,15 @@ export default function Branch() {
     }, [2000]);
   };
 
+  useEffect(()=>{
+    setRows(tabledata);
+  },[]);
+
   return (
-    <Card>
+    // <Card>
+    <>
       <FormComponent
+        title={"Add Branch"}
         children={fields}
         handleSubmit={handleSubmit}
         form={form}
@@ -94,7 +131,8 @@ export default function Branch() {
         // customAction={customAction}
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} />
-    </Card>
+      <TableComponent columns={columns || []} rows={rows || []} title={'Branch List'} />
+    </>
+    // </Card>
   );
 }

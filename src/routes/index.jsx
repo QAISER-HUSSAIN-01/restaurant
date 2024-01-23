@@ -6,16 +6,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import DashboardLayout from "layout/DashboardLayout";
-import Inventory from "pages/Inventory";
 import Dashboard from "pages/Dashboard";
 import Login from "pages/Login";
 import LoginAuth from "routes/LoginAuth";
 import ForgotPassword from "pages/ForgotPassword";
 import ChangePassword from "pages/ChangePassword";
 import Setting from "pages/Setting";
-import Components from "pages/Components";
 import Private from "./Private";
-import Setup from "pages/setup";
 import Branch from "pages/setup/Branch";
 import Category from "pages/setup/Category";
 import Department from "pages/setup/Department";
@@ -62,7 +59,9 @@ export default function AppRoutes() {
 
         <Route path="/" element={<Private component={<DashboardLayout />} />}>
           <Route path="" element={<Dashboard />} />
-          <Route path="inventory" element={<Inventory />} />
+
+          {/* Inventory Routes */}
+
           <Route
             path="inventory/opening-inventory"
             element={<OpeningInventory />}
@@ -85,6 +84,8 @@ export default function AppRoutes() {
           <Route path="inventory/invoice" element={<Invoice />} />
           <Route path="inventory/grn-return" element={<GrnReturn />} />
           <Route path="inventory/quotation" element={<Quotation />} />
+
+          {/* Setup Routes */}
 
           <Route path="setup/branch" element={<Branch />} />
           <Route path="setup/category" element={<Category />} />

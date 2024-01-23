@@ -16,7 +16,7 @@ export const sidebarList = [
   {
     key: "/inventory",
     icon: <AccountBookOutlined />,
-    label: <Link to="inventory">Inventory</Link>,
+    label: "Inventory",
     children: [
       {
         key: "/inventory/opening-inventory",
@@ -87,7 +87,6 @@ export const sidebarList = [
         icon: <EditTwoTone />,
         label: <Link to="inventory/quotation">Quotation</Link>,
       },
-      
     ],
   },
   {
@@ -127,7 +126,6 @@ export const sidebarList = [
     icon: <SettingOutlined />,
     label: <Link to="setting">Setting</Link>,
   },
-  
 ];
 
 export const rowFn = () => {

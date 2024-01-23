@@ -73,7 +73,7 @@ export default function Department() {
   };
 
   return (
-    <Card>
+    <>
       <FormComponent
         children={fields}
         handleSubmit={handleSubmit}
@@ -84,6 +84,6 @@ export default function Department() {
       />
       <br />
       <TableComponent columns={columns || []} rows={rows || []} />
-    </Card>
+    </>
   );
 }

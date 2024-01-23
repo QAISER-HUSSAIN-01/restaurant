@@ -81,7 +81,7 @@ export default function Subcategory() {
   };
 
   return (
-    <Card>
+    <>
       <FormComponent
         children={fields}
         handleSubmit={handleSubmit}
@@ -93,6 +93,6 @@ export default function Subcategory() {
       />
       <br />
       <TableComponent columns={columns || []} rows={rows || []} />
-    </Card>
+    </>
   );
 }
