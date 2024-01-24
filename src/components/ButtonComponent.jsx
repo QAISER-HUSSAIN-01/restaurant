@@ -10,6 +10,7 @@ export default function ButtonComponent({
   icon,
   text,
   onClick,
+  danger,
 }) {
   return (
     <Tooltip title={tooltip}>
@@ -21,8 +22,10 @@ export default function ButtonComponent({
         disabled={disabled}
         shape={shape}
         onClick={onClick}
-        title={text}
-      />
+        danger={danger}
+      >
+        {text}
+      </Button>
     </Tooltip>
   );
 }
