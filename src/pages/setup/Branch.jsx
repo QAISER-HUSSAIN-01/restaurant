@@ -184,7 +184,6 @@ export default function Branch() {
         columns={columns || []}
         rows={rows || []}
         title={"Branch List"}
-        header={true}
         handleReload={handleReload}
         loading={isTableLoading}
         handleDeleteAll={handleDeleteAll}

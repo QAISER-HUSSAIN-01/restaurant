@@ -1,6 +1,19 @@
 .main-layout {
   height: 100vh;
+
   /* overflow: hidden; */
+}
+.content{
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #EEF2F6;
+  /* background: linear-gradient(
+    to bottom,
+    rgba(150, 150, 255, 0.856) 30%,
+    rgba(150, 150, 255, 0.856) 20%,
+    #EEF2F6 50%,
+    #EEF2F6 100%
+  ) !important; */
 }
 .header {
   /* background-color: #fff !important; */
@@ -20,7 +33,7 @@
   font-size: 18px;
 }
 .logo-container {
-  line-height: 4.5;
+  line-height: 2;
   text-align: center;
 }
 .logo {
@@ -155,6 +168,10 @@
 }
 .h-50 {
   height: 50px;
+}
+.h-100p {
+  height: 100% !important;
+  background: black;
 }
 .h-100 {
   height: 100vh !important;

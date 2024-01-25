@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Col, Input, Row, Space, Table, Typography } from "antd";
+import { Card, Col, Row, Space, Table, Typography } from "antd";
 import {
   DeleteOutlined,
   DownloadOutlined,
@@ -22,14 +22,14 @@ export default function TableComponent({
 }) {
   const { exportToCSV, exportToExcel, exportToPDF, printTable } =
     TableExports();
-
   const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const headerContent = (
-    <Row className="space-between">
+    <Row className="space-between px-2">
       <Typography.Title level={5} className="line-h-1 mb-auto mt-auto">
         {title || "Item Lists"}
       </Typography.Title>
-      {header && (
+      {!header && (
         <Col>
           <Space size={"middle"}>
             <ButtonComponent
@@ -38,16 +38,16 @@ export default function TableComponent({
               tooltip="Reload Table"
               shape={"circle"}
               size={"small"}
-              onClick={() => handleReload()}
+              onClick={() => {handleReload();setSelectedRows([]);setSelectedRowKeys([]);}}
             />
             <ButtonComponent
-              icon={<DeleteOutlined className="error" />}
+              icon={<DeleteOutlined className={selectedRows.length > 0 ? "error":""} />}
               type={"default"}
               tooltip="Delete Selected Items"
               shape={"circle"}
               disabled={selectedRows.length > 0 ? false : true}
               size={"small"}
-              onClick={()=>handleDeleteAll(selectedRows)}
+              onClick={()=>{handleDeleteAll(selectedRows); setSelectedRows([]); setSelectedRowKeys([]);}}
             />
             <ButtonComponent
               icon={<DownloadOutlined className="success" />}
@@ -97,22 +97,25 @@ export default function TableComponent({
         loading={loading}
         rowKey={"Id"}
         rowSelection={{
+          selectedRowKeys:selectedRowKeys,
           onSelect: (prop) => {
             setSelectedRows([...selectedRows, prop]);
+            setSelectedRowKeys([...selectedRowKeys,prop.Id]);
           },
           onSelectAll: (_, rows) => {
             setSelectedRows([...rows]);
-          },
+            setSelectedRowKeys(rows.map(item => item.Id));
+          }, 
         }}
         expandable={
           expandable && {
             expandedRowRender: (record) => {
               console.log(record);
             },
-            rowExpandable: (record) => (record.key > 2 ? true : false),
+            rowExpandable: (record) => (record.key > 1 ? true : false),
           }
         }
-        size="largea"
+        size="middle"
         pagination={
           !pagination && {
             className: "px-3",

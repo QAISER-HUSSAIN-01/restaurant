@@ -13,8 +13,9 @@ export default function TableConfig() {
     setSearchedColumn(dataIndex);
   };
 
-  const handleReset = (clearFilters) => {
+  const handleReset = (clearFilters,confirm) => {
     clearFilters();
+    confirm();
     setSearchText("");
   };
 
@@ -30,9 +31,9 @@ export default function TableConfig() {
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
+          onChange={(e) => {
+            setSelectedKeys(e.target.value ? [e.target.value] : []);
+          }}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{ width: 188, marginBottom: 8, display: "block" }}
         />
@@ -47,7 +48,7 @@ export default function TableConfig() {
             Search
           </Button>
           <Button
-            onClick={() => handleReset(clearFilters)}
+            onClick={() => handleReset(clearFilters,confirm)}
             size="small"
             style={{ width: 90 }}
           >
