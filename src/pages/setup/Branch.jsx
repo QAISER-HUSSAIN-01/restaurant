@@ -156,8 +156,9 @@ export default function Branch() {
     }, [3000]);
   };
   const handleDeleteAll = (selectedRows) => {
-    console.log('selectedRows',selectedRows);
-    const deleted = rows.filter((item, index) => selectedRows[index]?.Id != item.Id
+    console.log("selectedRows", selectedRows);
+    const deleted = rows.filter(
+      (item, index) => selectedRows[index]?.Id != item.Id
     );
     console.log("deleted", deleted);
     setRows(deleted);

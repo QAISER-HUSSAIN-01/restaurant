@@ -32,13 +32,24 @@
 .header-icon {
   font-size: 18px;
 }
-.logo-container {
+/* .logo-container {
   line-height: 2;
   text-align: center;
-}
+} */
 .logo {
-  font-size: 28px;
-  color: blue;
+  height: 40px;
+  width: 50px;
+  border-radius: 5px;
+  border: 3px solid limegreen;
+  padding: 1px !important;
+}
+.logo img{
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+}
+.logo-container{
+  padding: 12px;
 }
 .column {
   text-align: center;
@@ -151,6 +162,9 @@
 }
 
 /* utilites*/
+.bold{
+  font-weight: bold;
+}
 .pointer {
   cursor: pointer;
 }
@@ -450,6 +464,13 @@
   padding: 1rem;
 }
 
+.p-4 {
+  padding: 1.5rem;
+}
+
+.p-5 {
+  padding: 2rem;
+}
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;

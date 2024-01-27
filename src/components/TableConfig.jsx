@@ -67,7 +67,7 @@ export default function TableConfig() {
             .toLowerCase()
             .includes(value.toLowerCase())
         : "",
-    onFilterDropdownVisibleChange: (visible) => {
+        onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current.select(), 100);
       }

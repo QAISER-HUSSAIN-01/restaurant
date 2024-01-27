@@ -32,7 +32,7 @@ export default function TableComponent({
       {!header && (
         <Col>
           <Space size={"middle"}>
-            <ButtonComponent
+            {/* <ButtonComponent
               icon={<ReloadOutlined />}
               type={"default"}
               tooltip="Reload Table"
@@ -48,7 +48,7 @@ export default function TableComponent({
               disabled={selectedRows.length > 0 ? false : true}
               size={"small"}
               onClick={()=>{handleDeleteAll(selectedRows); setSelectedRows([]); setSelectedRowKeys([]);}}
-            />
+            /> */}
             <ButtonComponent
               icon={<DownloadOutlined className="success" />}
               type={"default"}
@@ -96,17 +96,17 @@ export default function TableComponent({
         bordered
         loading={loading}
         rowKey={"Id"}
-        rowSelection={{
-          selectedRowKeys:selectedRowKeys,
-          onSelect: (prop) => {
-            setSelectedRows([...selectedRows, prop]);
-            setSelectedRowKeys([...selectedRowKeys,prop.Id]);
-          },
-          onSelectAll: (_, rows) => {
-            setSelectedRows([...rows]);
-            setSelectedRowKeys(rows.map(item => item.Id));
-          }, 
-        }}
+        // rowSelection={{
+        //   selectedRowKeys:selectedRowKeys,
+        //   onSelect: (prop) => {
+        //     setSelectedRows([...selectedRows, prop]);
+        //     setSelectedRowKeys([...selectedRowKeys,prop.Id]);
+        //   },
+        //   onSelectAll: (_, rows) => {
+        //     setSelectedRows([...rows]);
+        //     setSelectedRowKeys(rows.map(item => item.Id));
+        //   }, 
+        // }}
         expandable={
           expandable && {
             expandedRowRender: (record) => {

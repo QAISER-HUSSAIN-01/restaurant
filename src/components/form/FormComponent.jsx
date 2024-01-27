@@ -13,7 +13,8 @@ export default function FormComponent({
   validate,
   initialValues,
   customActionJustify,
-  hideActions
+  hideActions,
+  layout
 }) {
   const handleFormData = (values) => {
     handleSubmit(values);
@@ -24,7 +25,7 @@ export default function FormComponent({
       <Form
         form={form}
         onFinish={(values) => handleFormData(values)}
-        layout="vertical"
+        layout={layout || "vertical"}
         autoComplete="off"
         onValuesChange={(change, values) => {
           if (validate) {

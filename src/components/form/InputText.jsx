@@ -9,10 +9,10 @@ export default function InputText({
   max,
   pattern,
   required,
+  size
 }) {
   return (
     <Form.Item
-  
       label={label}
       name={name}
       // initialValue={value}
@@ -28,6 +28,7 @@ export default function InputText({
         // onChangeCapture={(e) => onChange(e, validation)}  //uncomment to work with you own useState
         disabled={disabled}
         placeholder={placeholder || label}
+        size={size || 'middle'}
       />
     </Form.Item>
   );
