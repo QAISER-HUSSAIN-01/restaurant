@@ -31,6 +31,8 @@ import IssuanceReturn from "pages/inventory/IssuanceReturn";
 import Invoice from "pages/inventory/Invoice";
 import GrnReturn from "pages/inventory/GrnReturn";
 import Quotation from "pages/inventory/Quotation";
+import Recipe from "pages/setup/Recipe";
+import UserInventory from "pages/setup/UserInventory";
 
 export default function AppRoutes() {
   return (
@@ -92,8 +94,14 @@ export default function AppRoutes() {
           <Route path="setup/department" element={<Department />} />
           <Route path="setup/item" element={<Item />} />
           <Route path="setup/subcategory" element={<Subcategory />} />
+          <Route path="setup/recipe" element={<Recipe />} />
+          <Route path="setup/user-inventory-role" element={<UserInventory />} />
+          
+          {/* Other Routes */}
+
           <Route path="setting" element={<Setting />} />
           <Route path="changepassword" element={<ChangePassword />} />
+          
         </Route>
 
         {/* no routes */}

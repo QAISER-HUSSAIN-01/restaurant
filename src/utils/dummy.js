@@ -119,6 +119,16 @@ export const sidebarList = [
         icon: <EditTwoTone />,
         label: <Link to="setup/subcategory">Add Sub-Category</Link>,
       },
+      {
+        key: "/setup/recipe",
+        icon: <EditTwoTone />,
+        label: <Link to="setup/recipe">Add Recipe</Link>,
+      },
+      {
+        key: "/setup/user-inventory-role",
+        icon: <EditTwoTone />,
+        label: <Link to="setup/user-inventory-role">Add User Inventory Role</Link>,
+      },
     ],
   },
   {

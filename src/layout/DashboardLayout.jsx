@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 export default function DashboardLayout() {
   const [hide, setHide] = useState(false);
   const handleSidebar = () => setHide(!hide);
-
+  
   return (
     <Layout hasSider className="main-layout">
       <Sidebar hide={hide} setHide={setHide} />
