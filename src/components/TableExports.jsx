@@ -21,7 +21,7 @@ const ExportTable = () => {
     doc.setFontSize(15);
 
     const title = lastSegment;
-    const headers = [columns.map((column) => column.title)];
+    const headers = [columns.map((column) => column.title == 'Action' ? '':column.title)];
 
     const tableData = data.map((item) =>
       columns.map((column) => item[column.dataIndex])

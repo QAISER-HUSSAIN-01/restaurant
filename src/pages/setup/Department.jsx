@@ -75,6 +75,7 @@ export default function Department() {
   return (
     <>
       <FormComponent
+      title={'Add Department'}
         children={fields}
         handleSubmit={handleSubmit}
         form={form}
@@ -83,7 +84,7 @@ export default function Department() {
         // customAction={customAction}
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} />
+      <TableComponent columns={columns || []} rows={rows || []} title={'Department List'} />
     </>
   );
 }

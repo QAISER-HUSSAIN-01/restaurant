@@ -13,7 +13,8 @@ function App() {
             algorithm: isDark ? [theme.darkAlgorithm,theme.compactAlgorithm] : [theme.defaultAlgorithm,theme.compactAlgorithm],
             components: {
               Layout: {
-                // headerBg: token.colorBgBase,
+                headerBg: '#4096ff',
+                headerColor:'white',
               },
               Table: {
                 // headerBg: isDark ? '' : token.colorBorderSecondary,
@@ -22,8 +23,10 @@ function App() {
               Card:{
                 // headerBg: isDark ? token.blue5 : token.blue4,
                 // colorTextHeading: isDark ? '' : 'white',
-                paddingLeft:'0px'
+                // paddingLeft:'0px',
+                // headerBg: '#6aabfbae'
               },
+              
             },
           }}
         >

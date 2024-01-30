@@ -136,6 +136,7 @@ export default function Item() {
   return (
     <>
       <FormComponent
+      title={'Add Item'}
         children={fields}
         handleSubmit={handleSubmit}
         form={form}
@@ -145,7 +146,7 @@ export default function Item() {
         // customAction={customAction}
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} />
+      <TableComponent columns={columns || []} rows={rows || []} title={'Item List'} />
     </>
   );
 }

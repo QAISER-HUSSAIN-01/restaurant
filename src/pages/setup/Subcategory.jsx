@@ -83,6 +83,7 @@ export default function Subcategory() {
   return (
     <>
       <FormComponent
+        title={"Add Subcategory"}
         children={fields}
         handleSubmit={handleSubmit}
         form={form}
@@ -92,7 +93,7 @@ export default function Subcategory() {
         // customAction={customAction}
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} />
+      <TableComponent columns={columns || []} rows={rows || []} title={'Subcategory List'} />
     </>
   );
 }

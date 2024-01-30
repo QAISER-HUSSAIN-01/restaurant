@@ -60,22 +60,20 @@ export default function Category() {
       title: "Category Name",
       dataIndex: "Name",
       ...getColumnSearchProps("Name"),
-      ...sortString('Name')
+      ...sortString("Name"),
     },
     {
       key: "2",
       title: "Category Code",
       dataIndex: "ShortName",
       ...getColumnSearchProps("ShortName"),
-      ...sort('ShortName')
+      ...sort("ShortName"),
     },
     {
       key: "3",
       title: "Is Active",
       dataIndex: "Enabled",
-      render:(_,record)=>(
-        <Checkbox checked={record.Enabled} />
-      )
+      render: (_, record) => <Checkbox checked={record.Enabled} />,
     },
     {
       key: "4",
@@ -106,7 +104,7 @@ export default function Category() {
     {
       Id: "2",
       Name: "Maripur",
-      ShortName: '',
+      ShortName: "",
       HeadOffice: false,
       Enabled: true,
     },
@@ -134,11 +132,14 @@ export default function Category() {
     </>
   );
 
-  useEffect(()=>{setRows(tabledata)},[]);
-  
+  // useEffect(() => {
+  //   setRows(tabledata);
+  // }, []);
+
   return (
     <>
       <FormComponent
+        title={"Add Category"}
         children={fields}
         handleSubmit={handleSubmit}
         form={form}
@@ -148,7 +149,7 @@ export default function Category() {
         // customAction={customAction}
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} />
-   </>
+      <TableComponent columns={columns || []} rows={rows || []} title={'Category List'} />
+    </>
   );
 }

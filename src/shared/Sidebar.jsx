@@ -14,7 +14,7 @@ export default function Sidebar({ hide, setHide }) {
       onBreakpoint={(param) => setHide(param)}
       theme="light"
     >
-      <Col className={`flex justify-center align-center ${hide ? 'p-2' : 'p-2'}`}>
+      <Col className={`flex justify-center align-center ${hide ? 'p-2' : 'p-2'} logo-container`}>
         <Row gutter={[20, 0]}>
           <Col className="logo">
             <img src={logo} alt="logo" />

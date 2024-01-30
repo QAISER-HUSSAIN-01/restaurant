@@ -34,8 +34,8 @@ export default function Header({ handleSidebar }) {
   ];
 
   return (
-    // h-30 line-h-3
-    <Layout.Header className="p-0 ant-layout-sider-light">
+    // h-30 line-h-3 ant-layout-sider-light
+    <Layout.Header className="p-0">
       {/* <Menu theme="light"> */}
       <Row justify={"space-between"}>
         <Col span={1} className="text-center">
