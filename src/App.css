@@ -6,7 +6,7 @@
 .content{
   padding: 10px;
   overflow-y: auto;
-  /* background-color: #EEF2F6; */
+  background-color: #EEF2F6;
   /* background: linear-gradient(
     to bottom,
     rgba(150, 150, 255, 0.856) 30%,
@@ -174,8 +174,14 @@
   background-color: #4096ff !important;
   color: white !important;
 } */
-/* utilites*/
 
+.bg-theme{
+  background-color: #4096ff !important;
+}
+/* utilites*/
+.white{
+  color: white !important;
+}
 .bold{
   font-weight: bold;
 }

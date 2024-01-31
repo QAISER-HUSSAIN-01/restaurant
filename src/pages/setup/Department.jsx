@@ -1,6 +1,7 @@
 import { Card, Col, Form, Row } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import TableComponent from "components/TableComponent";
+import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
@@ -8,6 +9,8 @@ import InputText from "components/form/InputText";
 import React, { useState } from "react";
 
 export default function Department() {
+  const { getColumnSearchProps, sort, sortString } = TableConfig();
+
   const [isLoading, setIsLoading] = useState(false);
   const [rows, setRows] = useState([]);
 
@@ -25,6 +28,8 @@ export default function Department() {
       key: "1",
       title: "Department Name",
       dataIndex: "Name",
+      ...getColumnSearchProps('Name'),
+      ...sortString('Name')
     },
     {
       key: "2",
@@ -34,7 +39,9 @@ export default function Department() {
     {
       key: "3",
       title: "Branch Name",
-      dataIndex: "",
+      dataIndex: "BranchName",
+      ...getColumnSearchProps('BranchName'),
+      ...sortString('BranchName')
     },
   ];
   const fields = (

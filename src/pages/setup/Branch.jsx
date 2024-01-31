@@ -75,19 +75,19 @@ export default function Branch() {
       title: "Is Head Office",
       dataIndex: "HeadOffice",
       render: (_, record) => <Checkbox checked={record.HeadOffice} />,
-      className: "text-center",
+      // className: "text-center",
     },
     {
       key: "4",
       title: "Is Active",
       dataIndex: "Enabled",
       render: (_, record) => <Checkbox checked={record.Enabled} />,
-      className: "text-center",
+      // className: "text-center",
     },
     {
       key: "5",
       title: "Action",
-      className: "text-center",
+      // className: "text-center",
       render: (_, record) => (
         <Space>
           {" "}

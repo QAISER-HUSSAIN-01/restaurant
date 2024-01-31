@@ -25,7 +25,7 @@ export default function TableComponent({
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const headerContent = (
-    <Row className="space-between px-2">
+    <Row className="space-between">
       <Typography.Title level={5} className="line-h-1 mb-auto mt-auto">
         {title || "Item Lists"}
       </Typography.Title>
@@ -87,13 +87,13 @@ export default function TableComponent({
     </Row>
   );
   return (
-    <Card bordered={false} bodyStyle={{ padding: "0px" }}>
+    <Card bordered={false} bodyStyle={{ padding: "0px" }} title={headerContent}>
       <Table
-        title={() => headerContent}
+        // title={() => headerContent}
         columns={columns}
         dataSource={rows}
         scroll={{ x: 500, y: 400 }}
-        bordered
+        // bordered
         loading={loading}
         rowKey={"Id"}
         // rowSelection={{

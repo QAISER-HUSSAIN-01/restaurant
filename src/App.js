@@ -17,15 +17,17 @@ function App() {
                 headerColor:'white',
               },
               Table: {
-                // headerBg: isDark ? '' : token.colorBorderSecondary,
-                
+                headerBg: isDark ? '' : '#f5f5f5',
+                headerBorderRadius:'0'
               },
               Card:{
-                // headerBg: isDark ? token.blue5 : token.blue4,
-                // colorTextHeading: isDark ? '' : 'white',
+                
+                // headerBg: '#4096ff',
+                // colorTextHeading:'white',
                 // paddingLeft:'0px',
                 // headerBg: '#6aabfbae'
               },
+              
               
             },
           }}
