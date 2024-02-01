@@ -6,6 +6,8 @@ import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputText from "components/form/InputText";
+import { SuccessNotification } from "components/popup/Notifications";
+import PopDelete from "components/popup/PopDelete";
 import React, { useEffect, useState } from "react";
 
 export default function Branch() {
@@ -36,12 +38,14 @@ export default function Branch() {
       );
       form.setFieldsValue(initialValues);
       setFormData({});
+      SuccessNotification("successfully saved!");
     } else {
       const Id = (Math.random() * 356).toString();
       setIsLoading(false);
       setRows([...rows, { ...values, Id: Id }]);
       form.setFieldsValue(initialValues);
       setFormData({});
+      SuccessNotification("success");
     }
   };
 
@@ -95,11 +99,9 @@ export default function Branch() {
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
           />{" "}
-          <ButtonComponent
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record)}
-            danger={true}
-          />{" "}
+          <PopDelete handleDelete={() => handleDelete(record)}>
+            <ButtonComponent icon={<DeleteOutlined />} danger={true} />{" "}
+          </PopDelete>
         </Space>
       ),
     },
@@ -148,21 +150,6 @@ export default function Branch() {
     </>
   );
 
-  const handleReload = () => {
-    setIsTableLoading(true);
-    setTimeout(() => {
-      setRows(tabledata);
-      setIsTableLoading(false);
-    }, [3000]);
-  };
-  const handleDeleteAll = (selectedRows) => {
-    console.log("selectedRows", selectedRows);
-    const deleted = rows.filter(
-      (item, index) => selectedRows[index]?.Id != item.Id
-    );
-    console.log("deleted", deleted);
-    setRows(deleted);
-  };
   useEffect(() => {
     setRows(tabledata);
   }, []);
@@ -182,12 +169,10 @@ export default function Branch() {
       />
       <br />
       <TableComponent
+        title={"Branch List"}
         columns={columns || []}
         rows={rows || []}
-        title={"Branch List"}
-        handleReload={handleReload}
         loading={isTableLoading}
-        handleDeleteAll={handleDeleteAll}
       />
     </>
     // </Card>

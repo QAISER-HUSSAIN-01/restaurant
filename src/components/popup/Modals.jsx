@@ -1,6 +1,6 @@
 import { Modal, Row } from "antd";
-import { WarningFilled, InfoCircleFilled } from "@ant-design/icons";
-import ButtonComponent from "./ButtonComponent";
+import { WarningFilled } from "@ant-design/icons";
+import ButtonComponent from "../ButtonComponent";
 
 export const confirm = (message,onOk) =>
   Modal.confirm({
@@ -24,7 +24,7 @@ export const error = (prop) =>
     content: prop,
   });
 
-export const CustomModal = ({ open, setOpen, type }) => {
+export const custom = ({ open, setOpen, type }) => {
   const onOk = () => {
     if (type == "confirmation") {
       // proceed with your function

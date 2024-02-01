@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Col, Layout, Menu, Row, Space, Switch, theme } from "antd";
 import DropdownComponent from "components/DropdownComponent";
-import { confirm } from "components/Modals";
+import { confirm } from "components/popup/Modals";
 import { Link, useNavigate } from "react-router-dom";
 import { removeLocalItem } from "utils/functions";
 import { handleTheme } from "../store/slices/theme";
