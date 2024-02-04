@@ -1,10 +1,12 @@
 import axios from "axios";
 
-const url = "http://localhost:3001/";
+// const url = "http://localhost:3001/";
+const url = "http://5.189.174.161:6001/api/v2/";
 
 const headers = {
-  Authorization: "token",
+  // Authorization: "token",
   "Content-Type": "application/json",
+  // "Access-Control-Allow-Origin":'*'
 };
 
 const axiosInstance = axios.create({
@@ -46,7 +48,7 @@ const handleRequestError = (error) => {
   }
 };
 
-export const Create = async (path, payload) => {
+export const Post = async (path, payload) => {
   try {
     const { data } = await axiosInstance.post(`${url + path}`, payload);
     console.log(data);

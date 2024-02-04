@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Checkbox, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
+import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
@@ -9,10 +10,12 @@ import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
 import PopDelete from "components/popup/PopDelete";
 import React, { useEffect, useState } from "react";
+import { Post } from "utils/CrudApi";
 
 export default function Branch() {
   const initialValues = {
     Id: 0,
+    CompanyId: 0,
     Name: "",
     ShortName: "",
     UniqueId: "",
@@ -22,11 +25,19 @@ export default function Branch() {
   };
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [formData, setFormData] = useState({});
   const [rows, setRows] = useState([]);
   const [form] = Form.useForm();
+  const [add] = Form.useForm();
 
+  const onClose = () => {
+    setOpen(false);
+  };
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
   const handleSubmit = (values) => {
     setIsLoading(true);
     if (formData?.operation == 3) {
@@ -152,6 +163,8 @@ export default function Branch() {
 
   useEffect(() => {
     setRows(tabledata);
+    const data = Post("Branch", initialValues);
+    console.log("data", data);
   }, []);
 
   return (
@@ -165,7 +178,9 @@ export default function Branch() {
         submit={formData.Id ? "Update" : "Save"}
         isLoading={isLoading}
         initialValues={initialValues}
-        // customAction={customAction}
+        extra={
+          <ButtonComponent icon={<EditOutlined />} text={"Add"} size={"small"} onClick={handleDrawer} />
+        }
       />
       <br />
       <TableComponent
@@ -174,6 +189,18 @@ export default function Branch() {
         rows={rows || []}
         loading={isTableLoading}
       />
+
+      <DrawerComponent onClose={handleDrawer} open={open}>
+        {/* <FormComponent
+          title={"Add Branch"}
+          children={fields}
+          handleSubmit={handleSubmit}
+          form={add}
+          submit={formData.Id ? "Update" : "Save"}
+          isLoading={isLoading}
+          initialValues={initialValues}
+        /> */}
+      </DrawerComponent>
     </>
     // </Card>
   );
