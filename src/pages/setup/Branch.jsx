@@ -29,15 +29,17 @@ export default function Branch() {
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [formData, setFormData] = useState({});
   const [rows, setRows] = useState([]);
-  const [form] = Form.useForm();
+  const [search] = Form.useForm();
   const [add] = Form.useForm();
 
-  const onClose = () => {
-    setOpen(false);
-  };
   const handleDrawer = () => {
     setOpen(!open);
   };
+  const handleSearch = (values) => {
+    handleDrawer();
+    console.log(values);
+  };
+  
   const handleSubmit = (values) => {
     setIsLoading(true);
     if (formData?.operation == 3) {
@@ -47,22 +49,22 @@ export default function Branch() {
           item.Id == formData.Id ? { ...formData, ...values } : item
         )
       );
-      form.setFieldsValue(initialValues);
+      add.setFieldsValue(initialValues);
       setFormData({});
       SuccessNotification("successfully saved!");
     } else {
       const Id = (Math.random() * 356).toString();
       setIsLoading(false);
       setRows([...rows, { ...values, Id: Id }]);
-      form.setFieldsValue(initialValues);
+      add.setFieldsValue(initialValues);
       setFormData({});
       SuccessNotification("success");
     }
   };
-
+ 
   const handleEdit = (record) => {
     setFormData({ ...record, operation: 3 });
-    form.setFieldsValue(record);
+    add.setFieldsValue(record);
   };
 
   const handleDelete = (record) => {
@@ -142,8 +144,16 @@ export default function Branch() {
     },
   ];
 
-  const fields = (
-    <>
+  useEffect(() => {
+    setRows(tabledata);
+    const fetch = async () => {
+      const data = await Post("Branch", initialValues);
+      console.log("data", data);
+    };
+    fetch();
+  }, []);
+
+  const formfields = (
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
           <InputText label={"Branch Name"} name={"Name"} />
@@ -158,28 +168,42 @@ export default function Branch() {
           <InputCheckbox label={"Is Active"} name={"Enabled"} />
         </Col>
       </Row>
-    </>
   );
 
-  useEffect(() => {
-    setRows(tabledata);
-    const data = Post("Branch", initialValues);
-    console.log("data", data);
-  }, []);
-
+  const searchFields = (
+    <Row gutter={[20, 0]}>
+      <Col xs={24} md={12} xl={12}>
+        <InputText label={"Branch Name"} name={"Name"} />
+      </Col>
+      <Col xs={24} md={12} xl={12}>
+        <InputText label={"Branch Code"} name={"ShortName"} />
+      </Col>
+      <Col xs={12} md={6} xl={6} className="flex align-center">
+        <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
+      </Col>
+      <Col xs={12} md={6} xl={6} className="flex align-center">
+        <InputCheckbox label={"Is Active"} name={"Enabled"} />
+      </Col>
+    </Row>
+  );
   return (
     // <Card>
     <>
       <FormComponent
-        title={"Add Branch"}
-        children={fields}
-        handleSubmit={handleSubmit}
-        form={form}
-        submit={formData.Id ? "Update" : "Save"}
+        title={"Search"}
+        children={searchFields}
+        handleSubmit={handleSearch}
+        form={search}
+        submit={"Search"}
         isLoading={isLoading}
         initialValues={initialValues}
         extra={
-          <ButtonComponent icon={<EditOutlined />} text={"Add"} size={"small"} onClick={handleDrawer} />
+          <ButtonComponent
+            icon={<EditOutlined />}
+            text={"Add"}
+            size={"small"}
+            onClick={handleDrawer}
+          />
         }
       />
       <br />
@@ -189,17 +213,15 @@ export default function Branch() {
         rows={rows || []}
         loading={isTableLoading}
       />
-
       <DrawerComponent onClose={handleDrawer} open={open}>
-        {/* <FormComponent
-          title={"Add Branch"}
-          children={fields}
+        <FormComponent
+          children={formfields}
           handleSubmit={handleSubmit}
           form={add}
           submit={formData.Id ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
-        /> */}
+        />
       </DrawerComponent>
     </>
     // </Card>

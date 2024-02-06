@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Card, Checkbox, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
+import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
@@ -20,10 +21,20 @@ export default function Category() {
 
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(false);
   const [formData, setFormData] = useState({});
   const [rows, setRows] = useState([]);
-  const [form] = Form.useForm();
+  const [search] = Form.useForm();
+  const [add] = Form.useForm();
 
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+  const handleSearch = (values) => {
+    handleDrawer();
+    console.log(values);
+  };
   const handleSubmit = (values) => {
     setIsLoading(true);
     if (formData?.operation == 3) {
@@ -33,20 +44,20 @@ export default function Category() {
           item.Id == formData.Id ? { ...formData, ...values } : item
         )
       );
-      form.setFieldsValue(initialValues);
+      add.setFieldsValue(initialValues);
       setFormData({});
     } else {
       const Id = (Math.random() * 356).toString();
       setIsLoading(false);
       setRows([...rows, { ...values, Id: Id }]);
-      form.setFieldsValue(initialValues);
+      add.setFieldsValue(initialValues);
       setFormData({});
     }
   };
 
   const handleEdit = (record) => {
     setFormData({ ...record, operation: 3 });
-    form.setFieldsValue(record);
+    add.setFieldsValue(record);
   };
 
   const handleDelete = (record) => {
@@ -116,7 +127,23 @@ export default function Category() {
       Enabled: false,
     },
   ];
-  const fields = (
+  const formfields = (
+    <>
+      <Row gutter={[20, 0]}>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Category Name"} name={"Name"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Category Code"} name={"ShortName"} />
+        </Col>
+        <Col xs={3} md={3} xl={3} className="flex align-center">
+          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+        </Col>
+      </Row>
+    </>
+  );
+
+  const searchFields = (
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
@@ -139,17 +166,39 @@ export default function Category() {
   return (
     <>
       <FormComponent
-        title={"Add Category"}
-        children={fields}
-        handleSubmit={handleSubmit}
-        form={form}
+        title={"Search"}
+        children={searchFields}
+        handleSubmit={handleSearch}
+        form={search}
         submit={"Save"}
         isLoading={isLoading}
         initialValues={initialValues}
-        // customAction={customAction}
+        extra={
+          <ButtonComponent
+            icon={<EditOutlined />}
+            text={"Add"}
+            size={"small"}
+            onClick={handleDrawer}
+          />
+        }
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} title={'Category List'} />
+      <TableComponent
+        columns={columns || []}
+        rows={rows || []}
+        title={"Category List"}
+        loading={isTableLoading}
+      />
+      <DrawerComponent onClose={handleDrawer} open={open}>
+        <FormComponent
+          children={formfields}
+          handleSubmit={handleSubmit}
+          form={add}
+          submit={formData.Id ? "Update" : "Save"}
+          isLoading={isLoading}
+          initialValues={initialValues}
+        />
+      </DrawerComponent>
     </>
   );
 }

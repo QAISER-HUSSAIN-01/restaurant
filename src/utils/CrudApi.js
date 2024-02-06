@@ -6,7 +6,10 @@ const url = "http://5.189.174.161:6001/api/v2/";
 const headers = {
   // Authorization: "token",
   "Content-Type": "application/json",
-  // "Access-Control-Allow-Origin":'*'
+  // "Access-Control-Allow-Origin":'*',
+  // "Access-Control-Allow-Methods":["PUT", "GET", "HEAD", "POST", "DELETE", "OPTIONS"]
+
+
 };
 
 const axiosInstance = axios.create({
