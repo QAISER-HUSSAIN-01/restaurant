@@ -1,16 +1,19 @@
-import { Card, Col, Row } from "antd";
+import { Card, Col, Form, Row } from "antd";
 import FormComponent from "components/form/FormComponent";
 import InputText from "components/form/InputText";
 import React from "react";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
+import { Get } from "utils/CrudApi";
 import { EMAIL } from "utils/constants";
 import { setLocalItem } from "utils/functions";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [login] = Form.useForm();
   const customActions = <Link to={"/forgotpassword"}>forgot password ?</Link>;
-  const handleSubmit = async () => {
-    setLocalItem("token", true);
+  const handleSubmit = async (values) => {
+    const data = await Get(`Security/Auth/${values.email}/${values.password}`);
+    setLocalItem("token", data?.token);
     navigate("/");
   };
   return (
@@ -18,6 +21,7 @@ export default function Login() {
       <Col xs={24} sm={18} md={16} lg={6} className="login-container h-contain">
         {/* <Card> */}
           <FormComponent
+          form={login}
             handleSubmit={handleSubmit}
             submit={"Login"}
             reset={false}
@@ -29,7 +33,7 @@ export default function Login() {
                   label={"Email"}
                   name={"email"}
                   required={true}
-                  pattern={EMAIL}
+                  // pattern={EMAIL}
                 />
               </Col>
               <Col xs={24} md={24} lg={24}>

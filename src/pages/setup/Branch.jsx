@@ -12,22 +12,24 @@ import PopDelete from "components/popup/PopDelete";
 import React, { useEffect, useState } from "react";
 import { Post } from "utils/CrudApi";
 
+const initialValues = {
+  Id: 0,
+  CompanyId: 0,
+  Name: "",
+  ShortName: "",
+  UniqueId: "",
+  HeadOffice: false,
+  Enabled: true,
+  Deleted: true,
+};
+
 export default function Branch() {
-  const initialValues = {
-    Id: 0,
-    CompanyId: 0,
-    Name: "",
-    ShortName: "",
-    UniqueId: "",
-    HeadOffice: true,
-    Enabled: true,
-    Deleted: true,
-  };
+ 
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initialValues);
   const [rows, setRows] = useState([]);
   const [search] = Form.useForm();
   const [add] = Form.useForm();
@@ -35,12 +37,13 @@ export default function Branch() {
   const handleDrawer = () => {
     setOpen(!open);
   };
+
   const handleSearch = (values) => {
-    handleDrawer();
     console.log(values);
   };
   
   const handleSubmit = (values) => {
+    handleDrawer();
     setIsLoading(true);
     if (formData?.operation == 3) {
       setIsLoading(false);
@@ -65,12 +68,25 @@ export default function Branch() {
   const handleEdit = (record) => {
     setFormData({ ...record, operation: 3 });
     add.setFieldsValue(record);
+    handleDrawer();
   };
 
   const handleDelete = (record) => {
     const copy = [...rows];
     setRows(copy.filter((item) => item.Id != record.Id));
   };
+
+ 
+  useEffect(() => {
+    setIsTableLoading(true);
+    const fetch = async () => {
+      const data = await Post("Branch", initialValues);
+      setRows(data);
+      setIsTableLoading(false);
+    };
+    fetch();
+    // setIsTableLoading(false);
+  }, []);
 
   const columns = [
     {
@@ -119,52 +135,18 @@ export default function Branch() {
       ),
     },
   ];
-
-  const tabledata = [
-    {
-      Id: "1",
-      ShortName: "8",
-      Name: "Shershah Road",
-      HeadOffice: true,
-      Enabled: true,
-    },
-    {
-      Id: "2",
-      Name: "Maripur",
-      ShortName: "",
-      HeadOffice: false,
-      Enabled: true,
-    },
-    {
-      Id: "3",
-      Name: "Defence Housing Authority",
-      ShortName: "2",
-      HeadOffice: false,
-      Enabled: false,
-    },
-  ];
-
-  useEffect(() => {
-    setRows(tabledata);
-    const fetch = async () => {
-      const data = await Post("Branch", initialValues);
-      console.log("data", data);
-    };
-    fetch();
-  }, []);
-
   const formfields = (
       <Row gutter={[20, 0]}>
-        <Col xs={24} md={12} xl={8}>
+        <Col xs={24} md={12} xl={12}>
           <InputText label={"Branch Name"} name={"Name"} />
         </Col>
-        <Col xs={24} md={12} xl={8}>
+        <Col xs={24} md={12} xl={12}>
           <InputText label={"Branch Code"} name={"ShortName"} />
         </Col>
-        <Col xs={12} md={6} xl={3} className="flex align-center">
+        <Col xs={12} md={6} xl={6} className="flex align-center">
           <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
         </Col>
-        <Col xs={12} md={6} xl={3} className="flex align-center">
+        <Col xs={12} md={6} xl={6} className="flex align-center">
           <InputCheckbox label={"Is Active"} name={"Enabled"} />
         </Col>
       </Row>
@@ -172,16 +154,16 @@ export default function Branch() {
 
   const searchFields = (
     <Row gutter={[20, 0]}>
-      <Col xs={24} md={12} xl={12}>
+      <Col xs={24} md={12} xl={8}>
         <InputText label={"Branch Name"} name={"Name"} />
       </Col>
-      <Col xs={24} md={12} xl={12}>
+      <Col xs={24} md={12} xl={8}>
         <InputText label={"Branch Code"} name={"ShortName"} />
       </Col>
-      <Col xs={12} md={6} xl={6} className="flex align-center">
+      <Col xs={12} md={6} xl={4} className="flex align-center">
         <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
       </Col>
-      <Col xs={12} md={6} xl={6} className="flex align-center">
+      <Col xs={12} md={6} xl={4} className="flex align-center">
         <InputCheckbox label={"Is Active"} name={"Enabled"} />
       </Col>
     </Row>

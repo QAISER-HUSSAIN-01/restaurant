@@ -1,20 +1,19 @@
 import axios from "axios";
+import { getLocalItem } from "./functions";
 
 // const url = "http://localhost:3001/";
 const url = "http://5.189.174.161:6001/api/v2/";
 
 const headers = {
-  // Authorization: "token",
   "Content-Type": "application/json",
   // "Access-Control-Allow-Origin":'*',
   // "Access-Control-Allow-Methods":["PUT", "GET", "HEAD", "POST", "DELETE", "OPTIONS"]
-
 
 };
 
 const axiosInstance = axios.create({
   baseURL: url,
-  headers: headers,
+  headers: {...headers,Authorization: `Bearer ${getLocalItem('token')}`},
 });
 
 const handleRequestError = (error) => {
@@ -61,16 +60,16 @@ export const Post = async (path, payload) => {
   }
 };
 
-export const Read = async (path, param) => {
+export const Get = async (path, param) => {
   try {
-    const { data } = await axiosInstance.get(`${url + path}/:${param}`);
+    const { data } = await axiosInstance.get(`${url + path}`);
     return data;
   } catch (error) {
     handleRequestError(error);
   }
 };
 
-export const ReadAll = async (path) => {
+export const GetAll = async (path) => {
   try {
     const { data } = await axiosInstance.get(`${url + path}`);
     return data;
