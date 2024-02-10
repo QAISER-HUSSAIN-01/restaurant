@@ -9,15 +9,16 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import React, { useEffect, useState } from "react";
+import { Post } from "utils/CrudApi";
 
+const initialValues = {
+  Id: 0,
+  Name: "",
+  ShortName: "",
+  Enabled: true,
+  Deleted: true,
+};
 export default function Category() {
-  const initialValues = {
-    Id: 0,
-    Name: "",
-    ShortName: "",
-    Enabled: true,
-    Deleted: true,
-  };
 
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const [isLoading, setIsLoading] = useState(false);
@@ -65,6 +66,17 @@ export default function Category() {
     setRows(copy.filter((item) => item.Id != record.Id));
   };
 
+  useEffect(() => {
+    setIsTableLoading(true);
+    const fetch = async () => {
+      const data = await Post("Category", initialValues);
+      setRows(data);
+      setIsTableLoading(false);
+    };
+    fetch();
+  }, []);
+
+
   const columns = [
     {
       key: "1",
@@ -105,28 +117,8 @@ export default function Category() {
       ),
     },
   ];
-  const tabledata = [
-    {
-      Id: "1",
-      ShortName: "8",
-      Name: "Shershah Road",
-      Enabled: true,
-    },
-    {
-      Id: "2",
-      Name: "Maripur",
-      ShortName: "",
-      HeadOffice: false,
-      Enabled: true,
-    },
-    {
-      Id: "3",
-      Name: "Defence Housing Authority",
-      ShortName: "2",
-      HeadOffice: false,
-      Enabled: false,
-    },
-  ];
+ 
+
   const formfields = (
     <>
       <Row gutter={[20, 0]}>
@@ -159,14 +151,10 @@ export default function Category() {
     </>
   );
 
-  // useEffect(() => {
-  //   setRows(tabledata);
-  // }, []);
-
   return (
     <>
       <FormComponent
-        title={"Search"}
+        title={"Search Category"}
         children={searchFields}
         handleSubmit={handleSearch}
         form={search}

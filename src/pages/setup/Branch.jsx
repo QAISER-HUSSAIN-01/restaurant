@@ -24,7 +24,6 @@ const initialValues = {
 };
 
 export default function Branch() {
- 
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -135,7 +134,7 @@ export default function Branch() {
       ),
     },
   ];
-  const formfields = (
+  const formFields = (
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={12}>
           <InputText label={"Branch Name"} name={"Name"} />
@@ -172,7 +171,7 @@ export default function Branch() {
     // <Card>
     <>
       <FormComponent
-        title={"Search"}
+        title={"Search Branch"}
         children={searchFields}
         handleSubmit={handleSearch}
         form={search}
@@ -197,7 +196,7 @@ export default function Branch() {
       />
       <DrawerComponent onClose={handleDrawer} open={open}>
         <FormComponent
-          children={formfields}
+          children={formFields}
           handleSubmit={handleSubmit}
           form={add}
           submit={formData.Id ? "Update" : "Save"}

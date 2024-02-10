@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Checkbox, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
+import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import FormTabs from "components/form";
@@ -8,6 +9,7 @@ import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
+import { SuccessNotification } from "components/popup/Notifications";
 import React, { useEffect, useState } from "react";
 
 export default function UserInventory() {
@@ -22,12 +24,23 @@ export default function UserInventory() {
   };
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initialValues);
   const [rows, setRows] = useState([]);
-  const [form] = Form.useForm();
+  const [search] = Form.useForm();
+  const [add] = Form.useForm();
 
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+
+  const handleSearch = (values) => {
+    console.log(values);
+  };
+  
   const handleSubmit = (values) => {
+    handleDrawer();
     setIsLoading(true);
     if (formData?.operation == 3) {
       setIsLoading(false);
@@ -36,20 +49,23 @@ export default function UserInventory() {
           item.Id == formData.Id ? { ...formData, ...values } : item
         )
       );
-      form.setFieldsValue(initialValues);
+      add.setFieldsValue(initialValues);
       setFormData({});
+      SuccessNotification("successfully saved!");
     } else {
       const Id = (Math.random() * 356).toString();
       setIsLoading(false);
       setRows([...rows, { ...values, Id: Id }]);
-      form.setFieldsValue(initialValues);
+      add.setFieldsValue(initialValues);
       setFormData({});
+      SuccessNotification("success");
     }
   };
-
+ 
   const handleEdit = (record) => {
     setFormData({ ...record, operation: 3 });
-    form.setFieldsValue(record);
+    add.setFieldsValue(record);
+    handleDrawer();
   };
 
   const handleDelete = (record) => {
@@ -114,7 +130,20 @@ export default function UserInventory() {
     },
   ];
 
-  const fields = (
+  const searchFields = (
+    <>
+      <Row gutter={[20, 0]}>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Branch"} name={"Branch"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"User"} name={"User"} />
+        </Col>
+      </Row>
+    </>
+  );
+  
+  const formFields = (
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
@@ -128,17 +157,23 @@ export default function UserInventory() {
   );
 
   return (
-    // <Card>
     <>
       <FormComponent
-        title={"Add User Inventory Role"}
-        children={fields}
-        handleSubmit={handleSubmit}
-        form={form}
+        title={"Search User Role"}
+        children={searchFields}
+        handleSubmit={handleSearch}
+        form={search}
         submit={"Search"}
         isLoading={isLoading}
         initialValues={initialValues}
-        // customAction={customAction}
+        extra={
+          <ButtonComponent
+            icon={<EditOutlined />}
+            text={"Add"}
+            size={"small"}
+            onClick={handleDrawer}
+          />
+        }
       />
       <br />
       <TableComponent
@@ -147,7 +182,16 @@ export default function UserInventory() {
         title={"User Inventory Role List"}
         loading={isTableLoading}
       />
+      <DrawerComponent onClose={handleDrawer} open={open}>
+        <FormComponent
+          children={formFields}
+          handleSubmit={handleSubmit}
+          form={add}
+          submit={formData.Id ? "Update" : "Save"}
+          isLoading={isLoading}
+          initialValues={initialValues}
+        />
+      </DrawerComponent>
     </>
-    // </Card>
   );
 }
