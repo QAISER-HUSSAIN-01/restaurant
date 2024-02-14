@@ -13,7 +13,7 @@ import DropdownComponent from "components/DropdownComponent";
 import { confirm } from "components/popup/Modals";
 import { Link, useNavigate } from "react-router-dom";
 import { removeLocalItem } from "utils/functions";
-import { handleTheme } from "../store/slices/theme";
+import { handleTheme } from "store/slices/theme";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonComponent from "components/ButtonComponent";
 import { useState } from "react";

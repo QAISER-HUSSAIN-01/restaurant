@@ -1,5 +1,5 @@
 import { ConfigProvider, theme } from "antd";
-import ErrorBoundary from "shared/ErrorBoundary";
+import ErrorBoundary from "components/shared/ErrorBoundary";
 import AppRoutes from "routes";
 import "./App.css";
 import {useSelector} from 'react-redux';

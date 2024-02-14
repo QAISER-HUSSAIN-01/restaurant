@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { sidebarList } from "../utils/dummy";
+import { sidebarList } from "utils/dummy";
 import { Col, Divider, Layout, Menu, Row, Space, Typography } from "antd";
 import { AlibabaOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
