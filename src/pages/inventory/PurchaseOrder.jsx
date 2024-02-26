@@ -3,6 +3,7 @@ import { Checkbox, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
+import BasicCrud from "components/crud/BasicCrud";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
@@ -21,35 +22,48 @@ export default function PurchaseOrder() {
     Deleted: true,
   };
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isLoading, setIsLoading] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
+  const [isFormLoading, setIsFormLoading] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [formData, setFormData] = useState({});
   const [rows, setRows] = useState([]);
-  const [form] = Form.useForm();
+  const [addFormInstance] = Form.useForm();
+  const [searchFormInstance] = Form.useForm();
+  const handleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const handleSearch = (values) => {
+    console.log(values);
+    
+  };
 
   const handleSubmit = (values) => {
-    setIsLoading(true);
+    setIsFormLoading(true);
     if (formData?.operation == 3) {
-      setIsLoading(false);
+      setIsFormLoading(false);
       setRows(
         rows.map((item) =>
           item.Id == formData.Id ? { ...formData, ...values } : item
         )
       );
-      form.setFieldsValue(initialValues);
+      addFormInstance.setFieldsValue(initialValues);
       setFormData({});
+      handleDrawer();
     } else {
       const Id = (Math.random() * 356).toString();
-      setIsLoading(false);
+      setIsFormLoading(false);
       setRows([...rows, { ...values, Id: Id }]);
-      form.setFieldsValue(initialValues);
+      addFormInstance.setFieldsValue(initialValues);
       setFormData({});
+      handleDrawer();
     }
   };
 
   const handleEdit = (record) => {
     setFormData({ ...record, operation: 3 });
-    form.setFieldsValue(record);
+    addFormInstance.setFieldsValue(record);
+    handleDrawer();
   };
 
   const handleDelete = (record) => {
@@ -62,7 +76,6 @@ export default function PurchaseOrder() {
       key: "1",
       title: "Item Code",
       dataIndex: "Name",
-
     },
     {
       key: "2",
@@ -93,19 +106,16 @@ export default function PurchaseOrder() {
       key: "7",
       title: "Min",
       dataIndex: "HeadOffice",
-
     },
     {
       key: "8",
       title: "Max",
       dataIndex: "Enabled",
-
     },
     {
       key: "9",
       title: "Balance",
       dataIndex: "Enabled",
-
     },
     {
       key: "10",
@@ -128,7 +138,40 @@ export default function PurchaseOrder() {
     },
   ];
 
-  const fields = (
+  const searchFields = (
+    <>
+      <Row gutter={[20, 0]}>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"PO"} name={"Name"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"PO Date"} name={"ShortName"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Vendor"} name={"HeadOffice"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Branch"} name={"Enabled"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Department Name"} name={"Name"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Items"} name={"ShortName"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Demand Qty"} name={"Name"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Rate"} name={"ShortName"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputTextarea label={"Description"} name={"Name"} />
+        </Col>
+      </Row>
+    </>
+  );
+  const formFields = (
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
@@ -164,25 +207,42 @@ export default function PurchaseOrder() {
 
   return (
     // <Card>
-    <>
-      <FormComponent
-        title={"Purchase Order"}
-        children={fields}
-        handleSubmit={handleSubmit}
-        form={form}
-        submit={formData.Id ? "Update" : "Save"}
-        isLoading={isLoading}
-        initialValues={initialValues}
-        // customAction={customAction}
-      />
-      <br />
-      <TableComponent
-        columns={columns || []}
-        rows={rows || []}
-        title={"Purchase Order List"}
-        loading={isTableLoading}
-      />
-    </>
+    <BasicCrud
+      formTitle="Purchase Order"
+      tableTitle="Purchase Order"
+      searchFields={searchFields}
+      formFields={formFields}
+      handleSubmit={handleSubmit}
+      handleSearch={handleSearch}
+      addFormInstance={addFormInstance}
+      searchFormInstance={searchFormInstance}
+      extra={"add"}
+      rows={rows}
+      columns={columns}
+      handleDrawer={handleDrawer}
+      isDrawerOpen={isDrawerOpen}
+      isFormLoading={isFormLoading}
+      isTableLoading={isTableLoading}
+    />
+    // <>
+    //   <FormComponent
+    //     title={"Purchase Order"}
+    //     children={fields}
+    //     handleSubmit={handleSubmit}
+    //     form={form}
+    //     submit={formData.Id ? "Update" : "Save"}
+    //     isLoading={isLoading}
+    //     initialValues={initialValues}
+    //     // customAction={customAction}
+    //   />
+    //   <br />
+    //   <TableComponent
+    //     columns={columns || []}
+    //     rows={rows || []}
+    //     title={"Purchase Order List"}
+    //     loading={isTableLoading}
+    //   />
+    // </>
     // </Card>
   );
 }

@@ -202,7 +202,7 @@ export default function GrnReturn() {
         </Col>
       </Row>
       <Row justify={"end"}>
-        <Col xs={24} md={12} xl={6}>
+        <Col xs={24} md={12} xl={12}>
           <Col xs={24} md={24} xl={24} className="mb-2">
             <Row>
               <Col xs={12} md={8} xl={8}>
@@ -258,7 +258,7 @@ export default function GrnReturn() {
             </Row>
           </Col>
         </Col>
-        <Col xs={24} md={12} xl={6}>
+        <Col xs={24} md={12} xl={8}>
           <Row gutter={[20, 0]}>
             <Col xs={12} md={12} xl={12}>
               <InputText label={"Tax"} name={"ShortName"} />

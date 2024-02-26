@@ -9,7 +9,8 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Post } from "utils/CrudApi";
 
 const initialValues = {
   Id: 0,
@@ -77,7 +78,15 @@ export default function Item() {
     setRows(copy.filter((item) => item.Id != record.Id));
   };
 
-
+  useEffect(() => {
+    setIsTableLoading(true);
+    const fetch = async () => {
+      const data = await Post("Item", initialValues);
+      setRows(data);
+      setIsTableLoading(false);
+    };
+    fetch();
+  }, []);
  
   const columns = [
     {
@@ -229,6 +238,7 @@ export default function Item() {
         columns={columns || []}
         rows={rows || []}
         title={"Item List"}
+        loading={isTableLoading}
       />
       <DrawerComponent onClose={handleDrawer} open={open}>
         <FormComponent

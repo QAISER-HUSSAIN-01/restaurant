@@ -164,6 +164,7 @@ export default function Department() {
         columns={columns || []}
         rows={rows || []}
         title={"Department List"}
+        loading={isTableLoading}
       />
       <DrawerComponent onClose={handleDrawer} open={open}>
         <FormComponent

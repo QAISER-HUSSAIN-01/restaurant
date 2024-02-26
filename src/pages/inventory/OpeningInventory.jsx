@@ -1,6 +1,7 @@
-import {Checkbox, Col, Form, Row } from "antd";
+import { Checkbox, Col, Form, Row } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import TableComponent from "components/TableComponent";
+import BasicCrud from "components/crud/BasicCrud";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
@@ -18,10 +19,28 @@ export default function OpeningInventory() {
     Deleted: true,
   };
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(false);
+  const [isFormLoading, setIsFormLoading] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [rows, setRows] = useState([]);
-  const [form] = Form.useForm();
+  const [addFormInstance] = Form.useForm();
+  const [searchFormInstance] = Form.useForm();
+  const handleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const handleSearch = (values) => {
+    console.log(values);
+  };
   
+  const handleSubmit = (values) => {
+    setIsFormLoading(true);
+    console.log(values);
+    setTimeout(() => {
+      setIsFormLoading(false);
+    }, [2000]);
+  };
+
   const columns = [
     {
       key: "1",
@@ -50,8 +69,7 @@ export default function OpeningInventory() {
     },
   ];
 
-
-  const fields = (
+  const searchFields = (
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
@@ -63,38 +81,60 @@ export default function OpeningInventory() {
         <Col xs={24} md={12} xl={8}>
           <InputSelect label={"Opening Date"} name={"ShortName"} />
         </Col>
-       
       </Row>
     </>
   );
 
-  const handleSubmit = (values) => {
-    setIsLoading(true);
-    console.log(values);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, [2000]);
-  };
+  const formFields = (
+    <>
+      <Row gutter={[20, 0]}>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Branch"} name={"Branch"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Department Name"} name={"ShortName"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Opening Date"} name={"ShortName"} />
+        </Col>
+      </Row>
+    </>
+  );
 
- 
-
+  
   return (
     // <Card>
-    <>
-      <FormComponent
-        title={"Opening Inventory"}
-        children={fields}
-        handleSubmit={handleSubmit}
-        form={form}
-        submit={"Search"}
-        isLoading={isLoading}
-        initialValues={initialValues}
-        hideActions={true}
-        // customAction={customAction}
-      />
-      <br />
-      <TableComponent columns={columns || []} rows={rows || []} title={'Opening Inventory List'} />
-    </>
+    <BasicCrud
+      formTitle="Opening Inventory"
+      tableTitle="Opening Inventory"
+      searchFields={searchFields}
+      formFields={formFields}
+      handleSubmit={handleSubmit}
+      handleSearch={handleSearch}
+      addFormInstance={addFormInstance}
+      searchFormInstance={searchFormInstance}
+      extra={'add'}
+      rows={rows}
+      columns={columns}
+      handleDrawer={handleDrawer}
+      isDrawerOpen={isDrawerOpen}
+      isFormLoading={isFormLoading}
+      isTableLoading={isTableLoading}  
+    />
+    // <>
+    //   <FormComponent
+    //     title={"Opening Inventory"}
+    //     children={searchFields}
+    //     handleSubmit={handleSubmit}
+    //     form={search}
+    //     submit={"Search"}
+    //     isLoading={isFormLoading}
+    //     initialValues={initialValues}
+    //     hideActions={true}
+    //   />
+    //   <br />
+    //   <TableComponent columns={columns || []} rows={rows || []} title={'Opening Inventory List'} />
+    // </>
     // </Card>
   );
 }

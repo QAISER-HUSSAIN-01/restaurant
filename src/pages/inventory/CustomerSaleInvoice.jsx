@@ -193,11 +193,11 @@ export default function CustomerSaleInvoice() {
       <Col xs={24} md={12} xl={8}>
         <InputText label={"Qty"} name={"Name"} />
       </Col>
-      <Col xs={24} md={12} xl={8}>
+      <Col xs={24} md={12} xl={16}>
         <InputSelect label={"Rate"} name={"ShortName"} />
       </Col>
       
-      <Col xs={24} md={12} xl={8}>
+      <Col xs={24} md={16} xl={16}>
         <InputTextarea label={"Description"} name={"ShortName"} />
       </Col>
     </Row>

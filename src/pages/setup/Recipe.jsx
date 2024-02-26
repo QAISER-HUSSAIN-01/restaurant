@@ -203,13 +203,13 @@ export default function Recipe() {
         <Col xs={24} md={12} xl={8}>
           <InputText label={"Issuance Unit"} name={"ShortName"} />
         </Col>
-        <Col xs={12} md={6} xl={3} className="flex align-center">
+        <Col xs={12} md={6} xl={6} className="flex align-center">
           <InputCheckbox label={"Dine In"} name={"ShortName"} />
         </Col>
-        <Col xs={12} md={6} xl={3} className="flex align-center">
+        <Col xs={12} md={6} xl={6} className="flex align-center">
           <InputCheckbox label={"Take Away"} name={"ShortName"} />
         </Col>
-        <Col xs={12} md={6} xl={3} className="flex align-center">
+        <Col xs={12} md={6} xl={6} className="flex align-center">
           <InputCheckbox label={"Delivery"} name={"ShortName"} />
         </Col>
       </Row>

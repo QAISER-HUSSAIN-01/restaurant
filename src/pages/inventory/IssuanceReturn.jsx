@@ -163,6 +163,9 @@ export default function IssuanceReturn() {
       <Col xs={24} md={12} xl={8}>
         <InputSelect label={"Date"} name={"Name"} />
       </Col>
+      <Col xs={24} md={16} xl={16}>
+        <InputTextarea />
+      </Col>
     </Row>
   );
 

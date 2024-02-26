@@ -10,7 +10,7 @@ import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
 import PopDelete from "components/popup/PopDelete";
 import React, { useEffect, useState } from "react";
-import { Post } from "utils/CrudApi";
+import { Get, Post } from "utils/CrudApi";
 
 const initialValues = {
   Id: 0,
@@ -75,11 +75,10 @@ export default function Branch() {
     setRows(copy.filter((item) => item.Id != record.Id));
   };
 
- 
   useEffect(() => {
     setIsTableLoading(true);
     const fetch = async () => {
-      const data = await Post("Branch", initialValues);
+      const data = await Get("Branch");
       setRows(data);
       setIsTableLoading(false);
     };

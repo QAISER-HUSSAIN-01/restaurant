@@ -198,7 +198,7 @@ export default function Issuance() {
       <Col xs={24} md={12} xl={8}>
         <InputText label={"Service Charges"} name={"ShortName"} />
       </Col>
-      <Col xs={24} md={12} xl={8}>
+      <Col xs={24} md={16} xl={16}>
         <InputTextarea label={"Description"} name={"ShortName"} />
       </Col>
     </Row>

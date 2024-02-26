@@ -9,7 +9,8 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Post } from "utils/CrudApi";
 
 
 const initialValues = {
@@ -71,6 +72,16 @@ export default function Subcategory() {
     const copy = [...rows];
     setRows(copy.filter((item) => item.Id != record.Id));
   };
+
+  useEffect(() => {
+    setIsTableLoading(true);
+    const fetch = async () => {
+      const data = await Post("SubCategory", initialValues);
+      setRows(data);
+      setIsTableLoading(false);
+    };
+    fetch();
+  }, []);
 
   const columns = [
     {
@@ -157,7 +168,7 @@ export default function Subcategory() {
         }
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} title={'Subcategory List'} />
+      <TableComponent columns={columns || []} rows={rows || []} title={'Subcategory List'} loading={isTableLoading} />
       <DrawerComponent onClose={handleDrawer} open={open}>
         <FormComponent
           children={formFields}
