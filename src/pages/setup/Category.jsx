@@ -8,11 +8,14 @@ import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
+import { ErrorNotification, SuccessNotification } from "components/popup/Notifications";
 import React, { useEffect, useState } from "react";
 import { Post } from "utils/CrudApi";
 
 const initialValues = {
+  OperationId:1,
   Id: 0,
+  BranchId: 1,
   Name: "",
   ShortName: "",
   Enabled: true,
@@ -24,21 +27,24 @@ export default function Category() {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initialValues);
   const [rows, setRows] = useState([]);
   const [search] = Form.useForm();
   const [add] = Form.useForm();
 
   const handleDrawer = () => {
     setOpen(!open);
+    open ? setFormData({...formData,OperationId:1}) : setFormData({...formData,OperationId:2})
+
   };
   const handleSearch = (values) => {
     handleDrawer();
     console.log(values);
   };
-  const handleSubmit = (values) => {
+  const handleSubmit = async(values) => {
+    console.log('agaya');
     setIsLoading(true);
-    if (formData?.operation == 3) {
+    if (formData?.OperationId == 3) {
       setIsLoading(false);
       setRows(
         rows.map((item) =>
@@ -48,11 +54,19 @@ export default function Category() {
       add.setFieldsValue(initialValues);
       setFormData({});
     } else {
-      const Id = (Math.random() * 356).toString();
+      const payload = { ...formData,...values};
+      const data = await Post("Category", payload);
+      if (data?.HasError == "1") {
+        ErrorNotification(data?.Error_Message);
+        setIsLoading(false);
+        return;
+      }
+      console.log(data);
       setIsLoading(false);
-      setRows([...rows, { ...values, Id: Id }]);
+      // setRows([...rows, { ...values, Id: Id }]);
       add.setFieldsValue(initialValues);
       setFormData({});
+      SuccessNotification("success");
     }
   };
 
@@ -70,7 +84,7 @@ export default function Category() {
     setIsTableLoading(true);
     const fetch = async () => {
       const data = await Post("Category", initialValues);
-      setRows(data);
+      setRows(data?.DataSet?.Table1);
       setIsTableLoading(false);
     };
     fetch();
@@ -182,7 +196,7 @@ export default function Category() {
           children={formfields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData.Id ? "Update" : "Save"}
+          submit={formData?.Id ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
         />

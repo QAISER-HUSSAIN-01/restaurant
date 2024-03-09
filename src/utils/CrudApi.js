@@ -2,7 +2,7 @@ import axios from "axios";
 import { getLocalItem } from "./functions";
 
 // const url = "http://localhost:3001/";
-const url = "http://5.189.174.161:6001/api/v2/";
+const url = "http://5.189.174.161:6001/api/v3/";
 
 const headers = {
   "Content-Type": "application/json",
@@ -53,7 +53,6 @@ const handleRequestError = (error) => {
 export const Post = async (path, payload) => {
   try {
     const { data } = await axiosInstance.post(`${url + path}`, payload);
-    console.log(data);
     return data;
   } catch (error) {
     handleRequestError(error);

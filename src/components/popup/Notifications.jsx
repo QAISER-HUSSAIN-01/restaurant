@@ -31,6 +31,6 @@ import { notification } from "antd";
       message: "Error",
       description: description,
       placement: "topRight",
-      duration: 4,
+      duration: 60,
     });
   };

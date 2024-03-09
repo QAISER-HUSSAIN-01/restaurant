@@ -7,17 +7,23 @@ import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputText from "components/form/InputText";
-import { SuccessNotification } from "components/popup/Notifications";
+import {
+  ErrorNotification,
+  SuccessNotification,
+} from "components/popup/Notifications";
 import PopDelete from "components/popup/PopDelete";
+import useForm from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
 import { Get, Post } from "utils/CrudApi";
 
 const initialValues = {
+  OperationId: 1,
   Id: 0,
-  CompanyId: 0,
+  CompanyId: 1,
+  Company: null,
   Name: "",
   ShortName: "",
-  UniqueId: "",
+  UniqueId: "00000000-0000-0000-0000-000000000000",
   HeadOffice: false,
   Enabled: true,
   Deleted: true,
@@ -25,66 +31,92 @@ const initialValues = {
 
 export default function Branch() {
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState(initialValues);
-  const [rows, setRows] = useState([]);
-  const [search] = Form.useForm();
-  const [add] = Form.useForm();
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    rows,
+  } = useForm("Branch", initialValues);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [open, setOpen] = useState(false);
+  // const [isTableLoading, setIsTableLoading] = useState(false);
+  // const [formData, setFormData] = useState(initialValues);
+  // const [rows, setRows] = useState([]);
+  // const [search] = Form.useForm();
+  // const [add] = Form.useForm();
 
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
+  // const handleDrawer = () => {
+  //   setOpen(!open);
+  //   open ? setFormData({...formData,OperationId:1}) : setFormData({...formData,OperationId:2})
+  // };
 
-  const handleSearch = (values) => {
-    console.log(values);
-  };
-  
-  const handleSubmit = (values) => {
-    handleDrawer();
-    setIsLoading(true);
-    if (formData?.operation == 3) {
-      setIsLoading(false);
-      setRows(
-        rows.map((item) =>
-          item.Id == formData.Id ? { ...formData, ...values } : item
-        )
-      );
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("successfully saved!");
-    } else {
-      const Id = (Math.random() * 356).toString();
-      setIsLoading(false);
-      setRows([...rows, { ...values, Id: Id }]);
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("success");
-    }
-  };
- 
-  const handleEdit = (record) => {
-    setFormData({ ...record, operation: 3 });
-    add.setFieldsValue(record);
-    handleDrawer();
-  };
+  // const handleSearch = (values) => {
+  //   console.log(values);
+  // };
 
-  const handleDelete = (record) => {
-    const copy = [...rows];
-    setRows(copy.filter((item) => item.Id != record.Id));
-  };
+  // const handleSubmit = async (values) => {
+  //   // handleDrawer();
+  //   setIsLoading(true);
+  //   if (formData?.OperationId == 3) {
+  //     setIsLoading(false);
+  //     setRows(
+  //       rows.map((item) =>
+  //         item.Id == formData.Id ? { ...formData, ...values } : item
+  //       )
+  //     );
+  //     add.setFieldsValue(initialValues);
+  //     setFormData({});
+  //     SuccessNotification("successfully saved!");
+  //   } else {
+  //     const payload = { ...formData,...values};
+  //     const data = await Post("Branch", payload);
+  //     if (data?.HasError == "1") {
+  //       ErrorNotification(data?.Error_Message);
+  //       setIsLoading(false);
+  //       return;
+  //     }
+  //     console.log(data);
+  //     setIsLoading(false);
+  //     // setRows([...rows, { ...values, Id: Id }]);
+  //     add.setFieldsValue(initialValues);
+  //     setFormData({});
+  //     SuccessNotification(data?.Message);
+  //   }
+  // };
 
-  useEffect(() => {
-    setIsTableLoading(true);
-    const fetch = async () => {
-      const data = await Get("Branch");
-      setRows(data);
-      setIsTableLoading(false);
-    };
-    fetch();
-    // setIsTableLoading(false);
-  }, []);
+  // const handleEdit = (record) => {
+  //   setFormData({ ...record, operation: 3 });
+  //   add.setFieldsValue(record);
+  //   handleDrawer();
+  // };
+
+  // const handleDelete = (record) => {
+  //   const copy = [...rows];
+  //   setRows(copy.filter((item) => item.Id != record.Id));
+  // };
+
+  // useEffect(() => {
+  //   setIsTableLoading(true);
+  //   const fetch = async () => {
+  //     const data = await Post("Branch", {...initialValues});
+  //     if (data.HasError == "1") {
+  //       ErrorNotification(data?.Error_Message);
+  //       return;
+  //     }
+  //     setRows(data?.DataSet?.Table1);
+  //     setIsTableLoading(false);
+  //   };
+  //   fetch();
+  //   // setIsTableLoading(false);
+  // }, []);
 
   const columns = [
     {
@@ -134,20 +166,20 @@ export default function Branch() {
     },
   ];
   const formFields = (
-      <Row gutter={[20, 0]}>
-        <Col xs={24} md={12} xl={12}>
-          <InputText label={"Branch Name"} name={"Name"} />
-        </Col>
-        <Col xs={24} md={12} xl={12}>
-          <InputText label={"Branch Code"} name={"ShortName"} />
-        </Col>
-        <Col xs={12} md={6} xl={6} className="flex align-center">
-          <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
-        </Col>
-        <Col xs={12} md={6} xl={6} className="flex align-center">
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
-        </Col>
-      </Row>
+    <Row gutter={[20, 0]}>
+      <Col xs={24} md={12} xl={12}>
+        <InputText label={"Branch Name"} name={"Name"} />
+      </Col>
+      <Col xs={24} md={12} xl={12}>
+        <InputText label={"Branch Code"} name={"ShortName"} />
+      </Col>
+      <Col xs={12} md={6} xl={6} className="flex align-center">
+        <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
+      </Col>
+      <Col xs={12} md={6} xl={6} className="flex align-center">
+        <InputCheckbox label={"Is Active"} name={"Enabled"} />
+      </Col>
+    </Row>
   );
 
   const searchFields = (
@@ -182,7 +214,7 @@ export default function Branch() {
             icon={<EditOutlined />}
             text={"Add"}
             size={"small"}
-            onClick={handleDrawer}
+            onClick={()=>handleDrawer(2)}
           />
         }
       />
@@ -193,12 +225,12 @@ export default function Branch() {
         rows={rows || []}
         loading={isTableLoading}
       />
-      <DrawerComponent onClose={handleDrawer} open={open}>
+      <DrawerComponent onClose={()=>handleDrawer(1)} open={open}>
         <FormComponent
           children={formFields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData.Id ? "Update" : "Save"}
+          submit={formData?.OperationId == 3 ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
         />
