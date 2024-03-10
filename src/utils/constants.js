@@ -1,3 +1,9 @@
+export const Operations = {
+  Select:1,
+  Insert:2,
+  Update:3,
+  Delete:4,
+}
 export const ALPHANUMERIC = {
   allow: /^[a-zA-Z0-9 ]+$/,
   message: "Only alphanumeric characters are allowed",

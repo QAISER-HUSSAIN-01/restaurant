@@ -9,13 +9,17 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
+import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
 import { Post } from "utils/CrudApi";
+import { Operations } from "utils/constants";
 
 
 const initialValues = {
+  OperationId: 1,
   Id: 0,
   CategoryId: 0,
+  BranchId: 0,
   Name: "",
   ShortName: "",
   Enabled: true,
@@ -23,65 +27,20 @@ const initialValues = {
 };
 export default function Subcategory() {
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState(initialValues);
-  const [rows, setRows] = useState([]);
-  const [search] = Form.useForm();
-  const [add] = Form.useForm();
-
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
-
-  const handleSearch = (values) => {
-    console.log(values);
-  };
-  
-  const handleSubmit = (values) => {
-    handleDrawer();
-    setIsLoading(true);
-    if (formData?.operation == 3) {
-      setIsLoading(false);
-      setRows(
-        rows.map((item) =>
-          item.Id == formData.Id ? { ...formData, ...values } : item
-        )
-      );
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("successfully saved!");
-    } else {
-      const Id = (Math.random() * 356).toString();
-      setIsLoading(false);
-      setRows([...rows, { ...values, Id: Id }]);
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("success");
-    }
-  };
- 
-  const handleEdit = (record) => {
-    setFormData({ ...record, operation: 3 });
-    add.setFieldsValue(record);
-    handleDrawer();
-  };
-
-  const handleDelete = (record) => {
-    const copy = [...rows];
-    setRows(copy.filter((item) => item.Id != record.Id));
-  };
-
-  useEffect(() => {
-    setIsTableLoading(true);
-    const fetch = async () => {
-      const data = await Post("SubCategory", initialValues);
-      setRows(data);
-      setIsTableLoading(false);
-    };
-    fetch();
-  }, []);
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    dataSet,
+  } = useFormHook("SubCategory", initialValues);
 
   const columns = [
     {
@@ -163,18 +122,18 @@ export default function Subcategory() {
             icon={<EditOutlined />}
             text={"Add"}
             size={"small"}
-            onClick={handleDrawer}
+            onClick={()=>handleDrawer(Operations.Insert)}
           />
         }
       />
       <br />
-      <TableComponent columns={columns || []} rows={rows || []} title={'Subcategory List'} loading={isTableLoading} />
-      <DrawerComponent onClose={handleDrawer} open={open}>
+      <TableComponent columns={columns || []} rows={dataSet?.Table1 || []} title={'Subcategory List'} loading={isTableLoading} />
+      <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
         <FormComponent
           children={formFields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData.Id ? "Update" : "Save"}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
         />

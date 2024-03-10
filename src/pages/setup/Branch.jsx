@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Checkbox, Col, Form, Row, Space } from "antd";
+import { Checkbox, Col, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
@@ -7,14 +7,9 @@ import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputText from "components/form/InputText";
-import {
-  ErrorNotification,
-  SuccessNotification,
-} from "components/popup/Notifications";
 import PopDelete from "components/popup/PopDelete";
-import useForm from "hooks/useFormHook";
-import React, { useEffect, useState } from "react";
-import { Get, Post } from "utils/CrudApi";
+import useFormHook from "hooks/useFormHook";
+import { Operations } from "utils/constants";
 
 const initialValues = {
   OperationId: 1,
@@ -43,81 +38,8 @@ export default function Branch() {
     add,
     formData,
     search,
-    rows,
-  } = useForm("Branch", initialValues);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [open, setOpen] = useState(false);
-  // const [isTableLoading, setIsTableLoading] = useState(false);
-  // const [formData, setFormData] = useState(initialValues);
-  // const [rows, setRows] = useState([]);
-  // const [search] = Form.useForm();
-  // const [add] = Form.useForm();
-
-  // const handleDrawer = () => {
-  //   setOpen(!open);
-  //   open ? setFormData({...formData,OperationId:1}) : setFormData({...formData,OperationId:2})
-  // };
-
-  // const handleSearch = (values) => {
-  //   console.log(values);
-  // };
-
-  // const handleSubmit = async (values) => {
-  //   // handleDrawer();
-  //   setIsLoading(true);
-  //   if (formData?.OperationId == 3) {
-  //     setIsLoading(false);
-  //     setRows(
-  //       rows.map((item) =>
-  //         item.Id == formData.Id ? { ...formData, ...values } : item
-  //       )
-  //     );
-  //     add.setFieldsValue(initialValues);
-  //     setFormData({});
-  //     SuccessNotification("successfully saved!");
-  //   } else {
-  //     const payload = { ...formData,...values};
-  //     const data = await Post("Branch", payload);
-  //     if (data?.HasError == "1") {
-  //       ErrorNotification(data?.Error_Message);
-  //       setIsLoading(false);
-  //       return;
-  //     }
-  //     console.log(data);
-  //     setIsLoading(false);
-  //     // setRows([...rows, { ...values, Id: Id }]);
-  //     add.setFieldsValue(initialValues);
-  //     setFormData({});
-  //     SuccessNotification(data?.Message);
-  //   }
-  // };
-
-  // const handleEdit = (record) => {
-  //   setFormData({ ...record, operation: 3 });
-  //   add.setFieldsValue(record);
-  //   handleDrawer();
-  // };
-
-  // const handleDelete = (record) => {
-  //   const copy = [...rows];
-  //   setRows(copy.filter((item) => item.Id != record.Id));
-  // };
-
-  // useEffect(() => {
-  //   setIsTableLoading(true);
-  //   const fetch = async () => {
-  //     const data = await Post("Branch", {...initialValues});
-  //     if (data.HasError == "1") {
-  //       ErrorNotification(data?.Error_Message);
-  //       return;
-  //     }
-  //     setRows(data?.DataSet?.Table1);
-  //     setIsTableLoading(false);
-  //   };
-  //   fetch();
-  //   // setIsTableLoading(false);
-  // }, []);
-
+    dataSet,
+  } = useFormHook("Branch", initialValues);
   const columns = [
     {
       key: "1",
@@ -198,6 +120,7 @@ export default function Branch() {
       </Col>
     </Row>
   );
+
   return (
     // <Card>
     <>
@@ -214,7 +137,7 @@ export default function Branch() {
             icon={<EditOutlined />}
             text={"Add"}
             size={"small"}
-            onClick={()=>handleDrawer(2)}
+            onClick={()=>handleDrawer(Operations.Insert)}
           />
         }
       />
@@ -222,15 +145,15 @@ export default function Branch() {
       <TableComponent
         title={"Branch List"}
         columns={columns || []}
-        rows={rows || []}
+        rows={dataSet?.Table1 || []}
         loading={isTableLoading}
       />
-      <DrawerComponent onClose={()=>handleDrawer(1)} open={open}>
+      <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
         <FormComponent
           children={formFields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData?.OperationId == 3 ? "Update" : "Save"}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
         />

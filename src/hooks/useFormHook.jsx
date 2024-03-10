@@ -3,15 +3,15 @@ import {
   ErrorNotification,
   SuccessNotification,
 } from "components/popup/Notifications";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "utils/CrudApi";
-
+import {Operations} from 'utils/constants'
 export default function useFormHook(path, initialValues) {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [formData, setFormData] = useState(initialValues);
-  const [rows, setRows] = useState([]);
+  const [dataSet, setDataSet] = useState({});
   const [search] = Form.useForm();
   const [add] = Form.useForm();
 
@@ -23,7 +23,7 @@ export default function useFormHook(path, initialValues) {
 
   const handleSearch = async(values) => {
     setIsLoading(true);
-    const payload = { ...formData, ...values, OperationId:1 };
+    const payload = { ...formData, ...values, OperationId:Operations.Select };
     const data = await Post(path, payload);
     if (data?.HasError == "1") {
       ErrorNotification(data?.Error_Message);
@@ -31,59 +31,73 @@ export default function useFormHook(path, initialValues) {
       return;
     }
     setIsLoading(false);
-    setRows(data?.DataSet?.Table1);
+    setDataSet(data?.DataSet);
     search.setFieldsValue(initialValues);
     setFormData(initialValues);
   };
 
   const handleSubmit = async (values) => {
     setIsLoading(true);
-    if (formData?.OperationId == 3) {
-      const payload = { ...formData, ...values };
-      const data = await Post(path, payload);
-      if (data?.HasError == "1") {
-        ErrorNotification(data?.Error_Message);
-        setIsLoading(false);
-        return;
-      }
+    const opId = formData?.OperationId == Operations.Insert ? Operations.Insert : Operations.Update ;
+    const payload = { ...formData, ...values, OperationId:opId };
+    const data = await Post(path, payload);
+    if (data?.HasError == "1") {
+      ErrorNotification(data?.Error_Message);
       setIsLoading(false);
-      setRows(data?.DataSet?.Table1);
-      add.setFieldsValue(initialValues);
-      setFormData(initialValues);
-      SuccessNotification("successfully saved!");
-      handleDrawer(1);
-    } else {
-      const payload = { ...formData, ...values };
-      const data = await Post(path, payload);
-      if (data?.HasError == "1") {
-        ErrorNotification(data?.Error_Message);
-        setIsLoading(false);
-        return;
-      }
-      setIsLoading(false);
-      setRows(data?.DataSet?.Table1);
-      add.setFieldsValue(initialValues);
-      setFormData(initialValues);
-      SuccessNotification(data?.Message);
-      handleDrawer(1);
+      return;
     }
+    setIsLoading(false);
+    setDataSet(data?.DataSet);
+    add.setFieldsValue(initialValues);
+    setFormData(initialValues);
+    SuccessNotification("successfully saved!");
+    handleDrawer(Operations.Select);
+    // if (formData?.OperationId == Operations.Update) {
+    //   const payload = { ...formData, ...values };
+    //   const data = await Post(path, payload);
+    //   if (data?.HasError == "1") {
+    //     ErrorNotification(data?.Error_Message);
+    //     setIsLoading(false);
+    //     return;
+    //   }
+    //   setIsLoading(false);
+    //   setDataSet(data?.DataSet);
+    //   add.setFieldsValue(initialValues);
+    //   setFormData(initialValues);
+    //   SuccessNotification("successfully saved!");
+    //   handleDrawer(Operations.Select);
+    // } else {
+    //   const payload = { ...formData, ...values };
+    //   const data = await Post(path, payload);
+    //   if (data?.HasError == "1") {
+    //     ErrorNotification(data?.Error_Message);
+    //     setIsLoading(false);
+    //     return;
+    //   }
+    //   setIsLoading(false);
+    //   setDataSet(data?.DataSet);
+    //   add.setFieldsValue(initialValues);
+    //   setFormData(initialValues);
+    //   SuccessNotification(data?.Message);
+    //   handleDrawer(Operations.Select);
+    // }
   };
 
   const handleEdit = (record) => {
-    setFormData({ ...formData, ...record, OperationId:3 });
+    setFormData({ ...formData, ...record, OperationId:Operations.Update });
     add.setFieldsValue(record);
-    handleDrawer(3,record);
+    handleDrawer(Operations.Update,record);
   };
 
   const handleDelete = async (record) => {
-    const payload = { ...formData, ...record, OperationId: 4 };
+    const payload = { ...formData, ...record, OperationId: Operations.Delete };
     const data = await Post(path, payload);
-    if (data.HasError == "1") {
+    if (data?.HasError == "1") {
       ErrorNotification(data?.Error_Message);
       return;
     }
     SuccessNotification(data?.Message);
-    setRows(data?.DataSet?.Table1);
+    setDataSet(data?.DataSet);
   };
 
   useEffect(() => {
@@ -91,12 +105,12 @@ export default function useFormHook(path, initialValues) {
     const fetch = async () => {
       const payload = initialValues;
       const data = await Post(path, payload);
-      if (data.HasError == "1") {
+      if (data?.HasError == "1") {
         ErrorNotification(data?.Error_Message);
         setIsTableLoading(false);
         return;
       }
-      setRows(data?.DataSet?.Table1);
+      setDataSet(data?.DataSet);
       setIsTableLoading(false);
     };
     fetch();
@@ -109,7 +123,7 @@ export default function useFormHook(path, initialValues) {
     search,
     add,
     formData,
-    rows,
+    dataSet,
     handleDelete,
     handleSubmit,
     handleSearch,

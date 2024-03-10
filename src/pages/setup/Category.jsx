@@ -1,96 +1,40 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Card, Checkbox, Col, Form, Row, Space } from "antd";
+import { Checkbox, Col, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
-import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
-import { ErrorNotification, SuccessNotification } from "components/popup/Notifications";
-import React, { useEffect, useState } from "react";
-import { Post } from "utils/CrudApi";
+import useFormHook from "hooks/useFormHook";
+import { Operations } from "utils/constants";
 
 const initialValues = {
-  OperationId:1,
+  OperationId: 1,
   Id: 0,
-  BranchId: 1,
+  BranchId: 0,
   Name: "",
   ShortName: "",
   Enabled: true,
   Deleted: true,
 };
 export default function Category() {
-
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState(initialValues);
-  const [rows, setRows] = useState([]);
-  const [search] = Form.useForm();
-  const [add] = Form.useForm();
-
-  const handleDrawer = () => {
-    setOpen(!open);
-    open ? setFormData({...formData,OperationId:1}) : setFormData({...formData,OperationId:2})
-
-  };
-  const handleSearch = (values) => {
-    handleDrawer();
-    console.log(values);
-  };
-  const handleSubmit = async(values) => {
-    console.log('agaya');
-    setIsLoading(true);
-    if (formData?.OperationId == 3) {
-      setIsLoading(false);
-      setRows(
-        rows.map((item) =>
-          item.Id == formData.Id ? { ...formData, ...values } : item
-        )
-      );
-      add.setFieldsValue(initialValues);
-      setFormData({});
-    } else {
-      const payload = { ...formData,...values};
-      const data = await Post("Category", payload);
-      if (data?.HasError == "1") {
-        ErrorNotification(data?.Error_Message);
-        setIsLoading(false);
-        return;
-      }
-      console.log(data);
-      setIsLoading(false);
-      // setRows([...rows, { ...values, Id: Id }]);
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("success");
-    }
-  };
-
-  const handleEdit = (record) => {
-    setFormData({ ...record, operation: 3 });
-    add.setFieldsValue(record);
-  };
-
-  const handleDelete = (record) => {
-    const copy = [...rows];
-    setRows(copy.filter((item) => item.Id != record.Id));
-  };
-
-  useEffect(() => {
-    setIsTableLoading(true);
-    const fetch = async () => {
-      const data = await Post("Category", initialValues);
-      setRows(data?.DataSet?.Table1);
-      setIsTableLoading(false);
-    };
-    fetch();
-  }, []);
-
-
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    dataSet,
+  } = useFormHook("Category", initialValues);
   const columns = [
     {
       key: "1",
@@ -131,7 +75,6 @@ export default function Category() {
       ),
     },
   ];
- 
 
   const formfields = (
     <>
@@ -180,23 +123,25 @@ export default function Category() {
             icon={<EditOutlined />}
             text={"Add"}
             size={"small"}
-            onClick={handleDrawer}
+            onClick={()=>handleDrawer(Operations.Insert)}
           />
         }
       />
       <br />
       <TableComponent
         columns={columns || []}
-        rows={rows || []}
+        rows={dataSet?.Table1 || []}
         title={"Category List"}
         loading={isTableLoading}
       />
-      <DrawerComponent onClose={handleDrawer} open={open}>
+      <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
         <FormComponent
           children={formfields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData?.Id ? "Update" : "Save"}
+          submit={
+            formData?.OperationId == Operations.Update ? "Update" : "Save"
+          }
           isLoading={isLoading}
           initialValues={initialValues}
         />

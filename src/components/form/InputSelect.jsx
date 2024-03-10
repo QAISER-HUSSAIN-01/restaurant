@@ -24,9 +24,9 @@ export default function InputSelect({
         // onChange={(val) => onChange(val, name)}
         options={options || [
           { value: "", label: "Select" },
-          { value: "one", label: "label one" },
-          { value: "two", label: "label two" },
-          { value: "three", label: "label three" },
+          { value: "1", label: "label one" },
+          { value: "2", label: "label two" },
+          { value: "3", label: "label three" },
         ]}
         filterOption={(input, option) => (option?.label ?? "").includes(input)}
         // filterSort={(optionA, optionB) =>
