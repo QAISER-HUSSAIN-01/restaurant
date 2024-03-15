@@ -11,8 +11,10 @@ import InputText from "components/form/InputText";
 import InputTextarea from "components/form/InputTextarea";
 import { SuccessNotification } from "components/popup/Notifications";
 import PopDelete from "components/popup/PopDelete";
+import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
 import { Post } from "utils/CrudApi";
+import { Operations } from "utils/constants";
 
 const initialValues = {
   Id: 0,
@@ -27,66 +29,20 @@ const initialValues = {
 
 export default function Issuance() {
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState(initialValues);
-  const [rows, setRows] = useState([]);
-  const [search] = Form.useForm();
-  const [add] = Form.useForm();
-
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
-
-  const handleSearch = (values) => {
-    console.log(values);
-  };
-
-  const handleSubmit = (values) => {
-    handleDrawer();
-    setIsLoading(true);
-    if (formData?.operation == 3) {
-      setIsLoading(false);
-      setRows(
-        rows.map((item) =>
-          item.Id == formData.Id ? { ...formData, ...values } : item
-        )
-      );
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("successfully saved!");
-    } else {
-      const Id = (Math.random() * 356).toString();
-      setIsLoading(false);
-      setRows([...rows, { ...values, Id: Id }]);
-      add.setFieldsValue(initialValues);
-      setFormData({});
-      SuccessNotification("success");
-    }
-  };
-
-  const handleEdit = (record) => {
-    setFormData({ ...record, operation: 3 });
-    add.setFieldsValue(record);
-    handleDrawer();
-  };
-
-  const handleDelete = (record) => {
-    const copy = [...rows];
-    setRows(copy.filter((item) => item.Id != record.Id));
-  };
-
-  // useEffect(() => {
-  //   setIsTableLoading(true);
-  //   const fetch = async () => {
-  //     const data = await Post("Branch", initialValues);
-  //     setRows(data);
-  //     setIsTableLoading(false);
-  //   };
-  //   fetch();
-  //   // setIsTableLoading(false);
-  // }, []);
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    dataSet,
+  } = useFormHook("", initialValues);
 
   const columns = [
     {
@@ -263,15 +219,15 @@ export default function Issuance() {
       <TableComponent
         title={"Issuance List"}
         columns={columns || []}
-        rows={rows || []}
+        rows={dataSet?.Table1 || []}
         loading={isTableLoading}
       />
-      <DrawerComponent onClose={handleDrawer} open={open}>
+       <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
         <FormComponent
           children={formFields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData.Id ? "Update" : "Save"}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
         />

@@ -30,7 +30,7 @@ export default function Sidebar({ hide, setHide }) {
           {!hide && (
             <Col className="flex flex-column">
               <Typography.Text className="bold mb-0">
-                Qaiser Hussain {`${hide}`}
+                Qaiser Hussain
               </Typography.Text>
               <Typography.Text>Software Engineer</Typography.Text>
             </Col>

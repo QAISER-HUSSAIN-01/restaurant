@@ -179,6 +179,12 @@ export default function Recipe() {
         <Col xs={12} md={6} xl={6} className="flex align-center">
           <InputCheckbox label={"Delivery"} name={"ShortName"} />
         </Col>
+        <Col xs={12} md={6} xl={6} className="flex align-center">
+          <InputCheckbox label={"Recipe"} name={"ShortName"} />
+        </Col>
+        <Col xs={12} md={6} xl={6} className="flex align-center">
+          <InputCheckbox label={"Sub Recipe"} name={"ShortName"} />
+        </Col>
       </Row>
     </>
   );

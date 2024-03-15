@@ -1,12 +1,17 @@
+import { EditOutlined } from "@ant-design/icons";
 import { Checkbox, Col, Form, Row } from "antd";
 import ButtonComponent from "components/ButtonComponent";
+import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
+import TableConfig from "components/TableConfig";
 import BasicCrud from "components/crud/BasicCrud";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
+import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
+import { Operations } from "utils/constants";
 
 export default function OpeningInventory() {
   const initialValues = {
@@ -18,28 +23,22 @@ export default function OpeningInventory() {
     Enabled: true,
     Deleted: true,
   };
-
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [isFormLoading, setIsFormLoading] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [rows, setRows] = useState([]);
-  const [addFormInstance] = Form.useForm();
-  const [searchFormInstance] = Form.useForm();
-  const handleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-
-  const handleSearch = (values) => {
-    console.log(values);
-  };
-  
-  const handleSubmit = (values) => {
-    setIsFormLoading(true);
-    console.log(values);
-    setTimeout(() => {
-      setIsFormLoading(false);
-    }, [2000]);
-  };
+  const { getColumnSearchProps, sort, sortString } = TableConfig();
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    dataSet,
+  } = useFormHook("Branch", initialValues);
+ 
 
   const columns = [
     {
@@ -104,37 +103,55 @@ export default function OpeningInventory() {
   
   return (
     // <Card>
-    <BasicCrud
-      formTitle="Opening Inventory"
-      tableTitle="Opening Inventory"
-      searchFields={searchFields}
-      formFields={formFields}
-      handleSubmit={handleSubmit}
-      handleSearch={handleSearch}
-      addFormInstance={addFormInstance}
-      searchFormInstance={searchFormInstance}
-      extra={'add'}
-      rows={rows}
-      columns={columns}
-      handleDrawer={handleDrawer}
-      isDrawerOpen={isDrawerOpen}
-      isFormLoading={isFormLoading}
-      isTableLoading={isTableLoading}  
-    />
-    // <>
-    //   <FormComponent
-    //     title={"Opening Inventory"}
-    //     children={searchFields}
-    //     handleSubmit={handleSubmit}
-    //     form={search}
-    //     submit={"Search"}
-    //     isLoading={isFormLoading}
-    //     initialValues={initialValues}
-    //     hideActions={true}
-    //   />
-    //   <br />
-    //   <TableComponent columns={columns || []} rows={rows || []} title={'Opening Inventory List'} />
-    // </>
+    // <BasicCrud
+    //   formTitle="Opening Inventory"
+    //   tableTitle="Opening Inventory"
+    //   searchFields={searchFields}
+    //   formFields={formFields}
+    //   handleSubmit={handleSubmit}
+    //   handleSearch={handleSearch}
+    //   addFormInstance={addFormInstance}
+    //   searchFormInstance={searchFormInstance}
+    //   extra={'add'}
+    //   rows={rows}
+    //   columns={columns}
+    //   handleDrawer={handleDrawer}
+    //   isDrawerOpen={isDrawerOpen}
+    //   isFormLoading={isFormLoading}
+    //   isTableLoading={isTableLoading}  
+    // />
+    <>
+      <FormComponent
+        title={"Search Opening Inventory"}
+        children={searchFields}
+        handleSubmit={handleSearch}
+        form={search}
+        submit={"Search"}
+        isLoading={isLoading}
+        initialValues={initialValues}
+        // hideActions={true}
+        extra={
+          <ButtonComponent
+            icon={<EditOutlined />}
+            text={"Add"}
+            size={"small"}
+            onClick={()=>handleDrawer(Operations.Insert)}
+          />
+        }
+      />
+      <br />
+      <TableComponent columns={columns || []} rows={dataSet?.Table1 || []} title={'Opening Inventory List'} />
+      <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
+        <FormComponent
+          children={formFields}
+          handleSubmit={handleSubmit}
+          form={add}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
+          isLoading={isLoading}
+          initialValues={initialValues}
+        />
+      </DrawerComponent>
+    </>
     // </Card>
   );
 }

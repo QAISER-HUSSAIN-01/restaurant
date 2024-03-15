@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Checkbox, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
+import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
@@ -8,54 +9,36 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import InputTextarea from "components/form/InputTextarea";
+import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
+import { Operations } from "utils/constants";
 
+const initialValues = {
+  Id: 0,
+  Name: "",
+  ShortName: "",
+  UniqueId: "",
+  HeadOffice: true,
+  Enabled: true,
+  Deleted: true,
+};
 export default function Production() {
-  const initialValues = {
-    Id: 0,
-    Name: "",
-    ShortName: "",
-    UniqueId: "",
-    HeadOffice: true,
-    Enabled: true,
-    Deleted: true,
-  };
+
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [rows, setRows] = useState([]);
-  const [form] = Form.useForm();
-
-  const handleSubmit = (values) => {
-    setIsLoading(true);
-    if (formData?.operation == 3) {
-      setIsLoading(false);
-      setRows(
-        rows.map((item) =>
-          item.Id == formData.Id ? { ...formData, ...values } : item
-        )
-      );
-      form.setFieldsValue(initialValues);
-      setFormData({});
-    } else {
-      const Id = (Math.random() * 356).toString();
-      setIsLoading(false);
-      setRows([...rows, { ...values, Id: Id }]);
-      form.setFieldsValue(initialValues);
-      setFormData({});
-    }
-  };
-
-  const handleEdit = (record) => {
-    setFormData({ ...record, operation: 3 });
-    form.setFieldsValue(record);
-  };
-
-  const handleDelete = (record) => {
-    const copy = [...rows];
-    setRows(copy.filter((item) => item.Id != record.Id));
-  };
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    dataSet,
+  } = useFormHook("", initialValues);
 
   const columns = [
     {
@@ -99,7 +82,7 @@ export default function Production() {
     },
   ];
 
-  const fields = (
+  const formFields = (
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
@@ -123,27 +106,68 @@ export default function Production() {
       </Row>
     </>
   );
-
+  const searchFields = (
+    <>
+      <Row gutter={[20, 0]}>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Production #"} name={"Name"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Production Date"} name={"ShortName"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputSelect label={"Items"} name={"HeadOffice"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Qty"} name={"Name"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Branch"} name={"ShortName"} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <InputText label={"Department"} name={"Name"} />
+        </Col>
+      </Row>
+    </>
+  );
   return (
     // <Card>
     <>
       <FormComponent
-        title={"Production"}
-        children={fields}
-        handleSubmit={handleSubmit}
-        form={form}
-        submit={formData.Id ? "Update" : "Search"}
+        title={"Search Production"}
+        children={searchFields}
+        handleSubmit={handleSearch}
+        form={search}
+        submit={"Search"}
         isLoading={isLoading}
         initialValues={initialValues}
+        extra={
+          <ButtonComponent
+            icon={<EditOutlined />}
+            text={"Add"}
+            size={"small"}
+            onClick={()=>handleDrawer(Operations.Insert)}
+          />
+        }
         // customAction={customAction}
       />
       <br />
       <TableComponent
         columns={columns || []}
-        rows={rows || []}
+        rows={dataSet?.Table1 || []}
         title={"Production List"}
         loading={isTableLoading}
       />
+       <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
+        <FormComponent
+          children={formFields}
+          handleSubmit={handleSubmit}
+          form={add}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
+          isLoading={isLoading}
+          initialValues={initialValues}
+        />
+      </DrawerComponent>
     </>
     // </Card>
   );

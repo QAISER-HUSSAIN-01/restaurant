@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Checkbox, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
+import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import BasicCrud from "components/crud/BasicCrud";
@@ -9,68 +10,36 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import InputTextarea from "components/form/InputTextarea";
+import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
+import { Operations } from "utils/constants";
+
+const initialValues = {
+  Id: 0,
+  Name: "",
+  ShortName: "",
+  UniqueId: "",
+  HeadOffice: true,
+  Enabled: true,
+  Deleted: true,
+};
 
 export default function PurchaseOrder() {
-  const initialValues = {
-    Id: 0,
-    Name: "",
-    ShortName: "",
-    UniqueId: "",
-    HeadOffice: true,
-    Enabled: true,
-    Deleted: true,
-  };
   const { getColumnSearchProps, sort, sortString } = TableConfig();
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [isFormLoading, setIsFormLoading] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [rows, setRows] = useState([]);
-  const [addFormInstance] = Form.useForm();
-  const [searchFormInstance] = Form.useForm();
-  const handleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-
-  const handleSearch = (values) => {
-    console.log(values);
-    
-  };
-
-  const handleSubmit = (values) => {
-    setIsFormLoading(true);
-    if (formData?.operation == 3) {
-      setIsFormLoading(false);
-      setRows(
-        rows.map((item) =>
-          item.Id == formData.Id ? { ...formData, ...values } : item
-        )
-      );
-      addFormInstance.setFieldsValue(initialValues);
-      setFormData({});
-      handleDrawer();
-    } else {
-      const Id = (Math.random() * 356).toString();
-      setIsFormLoading(false);
-      setRows([...rows, { ...values, Id: Id }]);
-      addFormInstance.setFieldsValue(initialValues);
-      setFormData({});
-      handleDrawer();
-    }
-  };
-
-  const handleEdit = (record) => {
-    setFormData({ ...record, operation: 3 });
-    addFormInstance.setFieldsValue(record);
-    handleDrawer();
-  };
-
-  const handleDelete = (record) => {
-    const copy = [...rows];
-    setRows(copy.filter((item) => item.Id != record.Id));
-  };
-
+  const {
+    isLoading,
+    isTableLoading,
+    handleDelete,
+    handleDrawer,
+    handleEdit,
+    handleSearch,
+    handleSubmit,
+    open,
+    add,
+    formData,
+    search,
+    dataSet,
+  } = useFormHook("Branch", initialValues);
   const columns = [
     {
       key: "1",
@@ -207,42 +176,65 @@ export default function PurchaseOrder() {
 
   return (
     // <Card>
-    <BasicCrud
-      formTitle="Purchase Order"
-      tableTitle="Purchase Order"
-      searchFields={searchFields}
-      formFields={formFields}
-      handleSubmit={handleSubmit}
-      handleSearch={handleSearch}
-      addFormInstance={addFormInstance}
-      searchFormInstance={searchFormInstance}
-      extra={"add"}
-      rows={rows}
-      columns={columns}
-      handleDrawer={handleDrawer}
-      isDrawerOpen={isDrawerOpen}
-      isFormLoading={isFormLoading}
-      isTableLoading={isTableLoading}
-    />
-    // <>
-    //   <FormComponent
-    //     title={"Purchase Order"}
-    //     children={fields}
-    //     handleSubmit={handleSubmit}
-    //     form={form}
-    //     submit={formData.Id ? "Update" : "Save"}
-    //     isLoading={isLoading}
-    //     initialValues={initialValues}
-    //     // customAction={customAction}
-    //   />
-    //   <br />
-    //   <TableComponent
-    //     columns={columns || []}
-    //     rows={rows || []}
-    //     title={"Purchase Order List"}
-    //     loading={isTableLoading}
-    //   />
-    // </>
+    // <BasicCrud
+    //   formTitle="Purchase Order"
+    //   tableTitle="Purchase Order"
+    //   searchFields={searchFields}
+    //   formFields={formFields}
+    //   handleSubmit={handleSubmit}
+    //   handleSearch={handleSearch}
+    //   addFormInstance={addFormInstance}
+    //   searchFormInstance={searchFormInstance}
+    //   extra={"add"}
+    //   rows={rows}
+    //   columns={columns}
+    //   handleDrawer={handleDrawer}
+    //   isDrawerOpen={isDrawerOpen}
+    //   isFormLoading={isFormLoading}
+    //   isTableLoading={isTableLoading}
+    // />
+    <>
+      <FormComponent
+        title={"Search Purchase Order"}
+        children={searchFields}
+        handleSubmit={handleSearch}
+        form={search}
+        submit={"Search"}
+        isLoading={isLoading}
+        initialValues={initialValues}
+        extra={
+          <ButtonComponent
+            icon={<EditOutlined />}
+            text={"Add"}
+            size={"small"}
+            onClick={() => handleDrawer(Operations.Insert)}
+          />
+        }
+        // customAction={customAction}
+      />
+      <br />
+      <TableComponent
+        columns={columns || []}
+        rows={dataSet?.Table1 || []}
+        title={"Purchase Order List"}
+        loading={isTableLoading}
+      />
+      <DrawerComponent
+        onClose={() => handleDrawer(Operations.Select)}
+        open={open}
+      >
+        <FormComponent
+          children={formFields}
+          handleSubmit={handleSubmit}
+          form={add}
+          submit={
+            formData?.OperationId == Operations.Update ? "Update" : "Save"
+          }
+          isLoading={isLoading}
+          initialValues={initialValues}
+        />
+      </DrawerComponent>
+    </>
     // </Card>
   );
 }
