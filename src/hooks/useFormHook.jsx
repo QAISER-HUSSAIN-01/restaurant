@@ -12,8 +12,8 @@ export default function useFormHook(path, initialValues) {
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [formData, setFormData] = useState(initialValues);
   const [dataSet, setDataSet] = useState({});
-  const [search] = Form.useForm();
-  const [add] = Form.useForm();
+  const [] = Form.useForm();
+  const [adsearchd] = Form.useForm();
 
   const handleDrawer = (operation,row) => {
     setOpen(!open);
@@ -50,37 +50,8 @@ export default function useFormHook(path, initialValues) {
     setDataSet(data?.DataSet);
     add.setFieldsValue(initialValues);
     setFormData(initialValues);
-    SuccessNotification("successfully saved!");
+    SuccessNotification(data?.Message);
     handleDrawer(Operations.Select);
-    // if (formData?.OperationId == Operations.Update) {
-    //   const payload = { ...formData, ...values };
-    //   const data = await Post(path, payload);
-    //   if (data?.HasError == "1") {
-    //     ErrorNotification(data?.Error_Message);
-    //     setIsLoading(false);
-    //     return;
-    //   }
-    //   setIsLoading(false);
-    //   setDataSet(data?.DataSet);
-    //   add.setFieldsValue(initialValues);
-    //   setFormData(initialValues);
-    //   SuccessNotification("successfully saved!");
-    //   handleDrawer(Operations.Select);
-    // } else {
-    //   const payload = { ...formData, ...values };
-    //   const data = await Post(path, payload);
-    //   if (data?.HasError == "1") {
-    //     ErrorNotification(data?.Error_Message);
-    //     setIsLoading(false);
-    //     return;
-    //   }
-    //   setIsLoading(false);
-    //   setDataSet(data?.DataSet);
-    //   add.setFieldsValue(initialValues);
-    //   setFormData(initialValues);
-    //   SuccessNotification(data?.Message);
-    //   handleDrawer(Operations.Select);
-    // }
   };
 
   const handleEdit = (record) => {

@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import { Operations } from "utils/constants";
 
 const initialValues = {
+  OperationId:1,
   Id: 0,
   Name: "",
   ShortName: "",
