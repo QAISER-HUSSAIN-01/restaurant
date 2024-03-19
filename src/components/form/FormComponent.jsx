@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Col, Row, Form, Space, Card } from "antd";
-
+import {SearchOutlined,EditOutlined} from '@ant-design/icons'
 export default function FormComponent({
   title,
   form,
@@ -48,6 +48,7 @@ export default function FormComponent({
                   htmlType="submit"
                   type="primary"
                   disabled={isLoading}
+                  icon={submit == 'Search' ? <SearchOutlined /> : <EditOutlined />}
                 >
                   {submit || "Submit"}
                 </Button>

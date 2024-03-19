@@ -19,7 +19,7 @@ const initialValues = {
   OperationId:1,
   BranchId:43,
   Id: 0,
-  SubCategoryId: 0,
+  SubCategoryId: 8,
   Name: "",
   ItemCode: "",
   ItemTypeId: 0,

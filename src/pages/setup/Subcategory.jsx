@@ -18,7 +18,7 @@ import { Operations } from "utils/constants";
 const initialValues = {
   OperationId: 1,
   Id: 0,
-  CategoryId: 0,
+  CategoryId: 18,
   BranchId: 0,
   Name: "",
   ShortName: "",

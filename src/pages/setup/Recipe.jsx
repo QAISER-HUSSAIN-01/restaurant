@@ -10,6 +10,7 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
+import PopDelete from "components/popup/PopDelete";
 import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
 import { Operations } from "utils/constants";
@@ -82,11 +83,13 @@ export default function Recipe() {
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
           />{" "}
+           <PopDelete handleDelete={() => handleDelete(record)}>
           <ButtonComponent
             icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record)}
+            // onClick={() => handleDelete(record)}
             danger={true}
           />{" "}
+          </PopDelete>
         </Space>
       ),
     },

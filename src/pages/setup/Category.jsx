@@ -7,6 +7,7 @@ import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputText from "components/form/InputText";
+import PopDelete from "components/popup/PopDelete";
 import useFormHook from "hooks/useFormHook";
 import { Operations } from "utils/constants";
 
@@ -66,11 +67,13 @@ export default function Category() {
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
           />{" "}
+          <PopDelete handleDelete={() => handleDelete(record)}>
           <ButtonComponent
             icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record)}
+            // onClick={() => handleDelete(record)}
             danger={true}
           />{" "}
+          </PopDelete>
         </Space>
       ),
     },

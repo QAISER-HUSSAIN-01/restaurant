@@ -10,24 +10,25 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
+import PopDelete from "components/popup/PopDelete";
 import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
 import { Operations } from "utils/constants";
 
 export default function UserInventory() {
   const initialValues = {
-    OperationId:1,
-    "Id": 0,
-      "UserId": 0,
-      "FormId": 0,
-      "Save": false,
-      "Edit": false,
-      "Delete": false,
-      "Post": false,
-      "Enabled": true,
-      "Deleted": false,
-      "Form": null,
-      "User": null
+    OperationId: 1,
+    Id: 0,
+    UserId: 0,
+    FormId: 0,
+    Save: false,
+    Edit: false,
+    Delete: false,
+    Post: false,
+    Enabled: true,
+    Deleted: false,
+    Form: null,
+    User: null,
   };
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const {
@@ -68,19 +69,19 @@ export default function UserInventory() {
       className: "text-center",
     },
     {
-        key: "4",
-        title: "Delete",
-        dataIndex: "IsDelete",
-        render: (_, record) => <Checkbox checked={record.IsDelete} />,
-        className: "text-center",
-      },
-      {
-        key: "5",
-        title: "Post",
-        dataIndex: "IsPost",
-        render: (_, record) => <Checkbox checked={record.IsPost} />,
-        className: "text-center",
-      },
+      key: "4",
+      title: "Delete",
+      dataIndex: "IsDelete",
+      render: (_, record) => <Checkbox checked={record.IsDelete} />,
+      className: "text-center",
+    },
+    {
+      key: "5",
+      title: "Post",
+      dataIndex: "IsPost",
+      render: (_, record) => <Checkbox checked={record.IsPost} />,
+      className: "text-center",
+    },
     {
       key: "6",
       title: "Action",
@@ -92,11 +93,13 @@ export default function UserInventory() {
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
           />{" "}
-          <ButtonComponent
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record)}
-            danger={true}
-          />{" "}
+          <PopDelete handleDelete={() => handleDelete(record)}>
+            <ButtonComponent
+              icon={<DeleteOutlined />}
+              // onClick={() => handleDelete(record)}
+              danger={true}
+            />{" "}
+          </PopDelete>
         </Space>
       ),
     },
@@ -114,7 +117,7 @@ export default function UserInventory() {
       </Row>
     </>
   );
-  
+
   const formFields = (
     <>
       <Row gutter={[20, 0]}>
@@ -143,7 +146,7 @@ export default function UserInventory() {
             icon={<EditOutlined />}
             text={"Add"}
             size={"small"}
-            onClick={()=>handleDrawer(Operations.Insert)}
+            onClick={() => handleDrawer(Operations.Insert)}
           />
         }
       />
@@ -154,12 +157,17 @@ export default function UserInventory() {
         title={"User Inventory Role List"}
         loading={isTableLoading}
       />
-      <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
+      <DrawerComponent
+        onClose={() => handleDrawer(Operations.Select)}
+        open={open}
+      >
         <FormComponent
           children={formFields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
+          submit={
+            formData?.OperationId == Operations.Update ? "Update" : "Save"
+          }
           isLoading={isLoading}
           initialValues={initialValues}
         />

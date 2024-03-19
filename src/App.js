@@ -20,15 +20,7 @@ function App() {
                 headerBg: isDark ? '' : '#f5f5f5',
                 headerBorderRadius:'0'
               },
-              Card:{
-                
-                // headerBg: '#4096ff',
-                // colorTextHeading:'white',
-                // paddingLeft:'0px',
-                // headerBg: '#6aabfbae'
-              },
-              
-              
+              Card:{},
             },
           }}
         >

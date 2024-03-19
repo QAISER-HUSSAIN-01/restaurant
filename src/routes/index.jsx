@@ -59,7 +59,7 @@ export default function AppRoutes() {
 
         {/* private routes */}
 
-        <Route path="/" element={<Private component={<DashboardLayout />} />}>
+        <Route path="/" element={<Private><DashboardLayout /></Private>}>
           <Route path="" element={<Dashboard />} />
 
           {/* Inventory Routes */}
