@@ -148,7 +148,7 @@ export default function Item() {
           <InputText label={"Issuance Recipe"} name={"IssuanceRecipe"} />
         </Col>
         <Col xs={3} md={3} xl={3} className="flex align-center">
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>
@@ -185,7 +185,7 @@ export default function Item() {
           <InputText label={"Issuance Recipe"} name={"IssuanceRecipe"} />
         </Col>
         <Col xs={3} md={3} xl={3} className="flex align-center">
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>

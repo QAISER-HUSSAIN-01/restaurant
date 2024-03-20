@@ -49,8 +49,9 @@ export default function Department() {
     },
     {
       key: "2",
-      title: "Is Active",
+      title: "Enabled",
       dataIndex: "Enabled",
+      render:(_,record)=>( record?.Enabled ? 'Yes':'No')
     },
     {
       key: "3",
@@ -91,7 +92,7 @@ export default function Department() {
           <InputSelect label={"Branch"} name={"BranchId"} />
         </Col>
         <Col xs={24} md={12} xl={12}>
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>
@@ -109,7 +110,7 @@ export default function Department() {
           <InputSelect label={"Branch"} name={"BranchId"} />
         </Col>
         <Col xs={24} md={12} xl={12}>
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>
