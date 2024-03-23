@@ -64,7 +64,7 @@ export default function Branch() {
     },
     {
       key: "4",
-      title: "Is Active",
+      title:"Enabled",
       dataIndex: "Enabled",
       render: (_, record) => <Checkbox checked={record.Enabled} />,
       // className: "text-center",
@@ -90,16 +90,16 @@ export default function Branch() {
   const formFields = (
     <Row gutter={[20, 0]}>
       <Col xs={24} md={12} xl={12}>
-        <InputText label={"Branch Name"} name={"Name"} />
+        <InputText label={"Branch Name"} name={"Name"} required={true} />
       </Col>
       <Col xs={24} md={12} xl={12}>
-        <InputText label={"Branch Code"} name={"ShortName"} />
+        <InputText label={"Branch Code"} name={"ShortName"} required={true} />
       </Col>
       <Col xs={12} md={6} xl={6} className="flex align-center">
-        <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
+        <InputCheckbox label={"Is Head Office"} name={"HeadOffice"}  />
       </Col>
       <Col xs={12} md={6} xl={6} className="flex align-center">
-        <InputCheckbox label={"Is Active"} name={"Enabled"} />
+        <InputCheckbox label={"Enabled"} name={"Enabled"} />
       </Col>
     </Row>
   );
@@ -116,7 +116,7 @@ export default function Branch() {
         <InputCheckbox label={"Is Head Office"} name={"HeadOffice"} />
       </Col>
       <Col xs={12} md={6} xl={4} className="flex align-center">
-        <InputCheckbox label={"Is Active"} name={"Enabled"} />
+        <InputCheckbox label={"Enabled"} name={"Enabled"} />
       </Col>
     </Row>
   );

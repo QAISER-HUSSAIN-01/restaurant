@@ -1,30 +1,26 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Col, Row, Space } from "antd";
+import { Checkbox, Col, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
 import TableConfig from "components/TableConfig";
 import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
-import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import PopDelete from "components/popup/PopDelete";
 import useFormHook from "hooks/useFormHook";
 import { Operations } from "utils/constants";
 
 const initialValues = {
-  OperationId:1,
-  Id: 0,
-  BranchId: 43,
+  OperationId: 1,
+  Id:0,
   Name: "",
-  ShortName: "",
   Enabled: true,
-  Deleted: true,
+  Deleted: false,
 };
 
-export default function Department() {
-
-  const { getColumnSearchProps, sortString } = TableConfig();
+export default function Unit() {
+  const { getColumnSearchProps, sort, sortString } = TableConfig();
   const {
     isLoading,
     isTableLoading,
@@ -38,30 +34,24 @@ export default function Department() {
     formData,
     search,
     dataSet,
-  } = useFormHook("Department", initialValues);
+  } = useFormHook("Units", initialValues);
   const columns = [
     {
       key: "1",
-      title: "Department Name",
+      title: "Unit Name",
       dataIndex: "Name",
       ...getColumnSearchProps("Name"),
       ...sortString("Name"),
     },
     {
       key: "2",
-      title: "Enabled",
+      title:"Enabled",
       dataIndex: "Enabled",
-      render:(_,record)=>( record?.Enabled ? 'Yes':'No')
+      render: (_, record) => <Checkbox checked={record.Enabled} />,
+      // className: "text-center",
     },
     {
       key: "3",
-      title: "Department Code",
-      dataIndex: "ShortName",
-      ...getColumnSearchProps("ShortName"),
-      ...sortString("ShortName"),
-    },
-    {
-      key: "5",
       title: "Action",
       // className: "text-center",
       render: (_, record) => (
@@ -78,50 +68,35 @@ export default function Department() {
       ),
     },
   ];
-
-  const searchfields = (
-    <>
-      <Row gutter={[20, 0]}>
-        <Col xs={24} md={12} xl={8}>
-          <InputText label={"Department Name"} name={"Name"} />
-        </Col>
-        <Col xs={24} md={12} xl={8}>
-          <InputText label={"Department Code"} name={"ShortName"} />
-        </Col>
-        <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Branch"} name={"BranchId"} />
-        </Col>
-        <Col xs={24} md={12} xl={12}>
-          <InputCheckbox label={"Enabled"} name={"Enabled"} />
-        </Col>
-      </Row>
-    </>
+  const formFields = (
+    <Row gutter={[20, 0]}>
+      <Col xs={24} md={12} xl={12}>
+        <InputText label={"Unit Name"} name={"Name"} required={true} />
+      </Col>
+      <Col xs={12} md={6} xl={6} className="flex align-center">
+        <InputCheckbox label={"Enabled"} name={"Enabled"} />
+      </Col>
+    </Row>
   );
-  const formfields = (
-    <>
-      <Row gutter={[20, 0]}>
-        <Col xs={24} md={12} xl={8}>
-          <InputText label={"Department Name"} name={"Name"}  required />
-        </Col>
-        <Col xs={24} md={12} xl={8}>
-          <InputText label={"Department Code"} name={"ShortName"}  required />
-        </Col>
-        <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Branch"} name={"BranchId"} required />
-        </Col>
-        <Col xs={24} md={12} xl={12}>
-          <InputCheckbox label={"Enabled"} name={"Enabled"} />
-        </Col>
-      </Row>
-    </>
+
+  const searchFields = (
+    <Row gutter={[20, 0]}>
+      <Col xs={24} md={12} xl={8}>
+        <InputText label={"Unit Name"} name={"Name"} />
+      </Col>
+      <Col xs={12} md={6} xl={4} className="flex align-center">
+        <InputCheckbox label={"Enabled"} name={"Enabled"} />
+      </Col>
+    </Row>
   );
 
   return (
+    // <Card>
     <>
       <FormComponent
-        title={"Search Department"}
-        children={searchfields}
-        handleSubmit={handleSubmit}
+        title={"Search Unit"}
+        children={searchFields}
+        handleSubmit={handleSearch}
         form={search}
         submit={"Search"}
         isLoading={isLoading}
@@ -137,21 +112,22 @@ export default function Department() {
       />
       <br />
       <TableComponent
+        title={"Unit List"}
         columns={columns || []}
         rows={dataSet?.Table1 || []}
-        title={"Department List"}
         loading={isTableLoading}
       />
       <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
         <FormComponent
-          children={formfields}
+          children={formFields}
           handleSubmit={handleSubmit}
           form={add}
-          submit={formData.OperationId == Operations.Update ? "Update" : "Save"}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
           isLoading={isLoading}
           initialValues={initialValues}
         />
       </DrawerComponent>
     </>
+    // </Card>
   );
 }

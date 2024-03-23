@@ -115,6 +115,11 @@ export const sidebarList = [
         label: <Link to="setup/item">Add Item</Link>,
       },
       {
+        key: "/setup/unit",
+        icon: <EditTwoTone />,
+        label: <Link to="setup/unit">Add Unit</Link>,
+      },
+      {
         key: "/setup/subcategory",
         icon: <EditTwoTone />,
         label: <Link to="setup/subcategory">Add Sub-Category</Link>,

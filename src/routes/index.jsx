@@ -14,6 +14,7 @@ import ChangePassword from "pages/ChangePassword";
 import Setting from "pages/Setting";
 import Private from "./Private";
 import Branch from "pages/setup/Branch";
+import Unit from "pages/setup/Unit";
 import Category from "pages/setup/Category";
 import Department from "pages/setup/Department";
 import Item from "pages/setup/Item";
@@ -90,6 +91,7 @@ export default function AppRoutes() {
           {/* Setup Routes */}
 
           <Route path="setup/branch" element={<Branch />} />
+          <Route path="setup/unit" element={<Unit />} />
           <Route path="setup/category" element={<Category />} />
           <Route path="setup/department" element={<Department />} />
           <Route path="setup/item" element={<Item />} />

@@ -1,5 +1,5 @@
-import { EditOutlined } from "@ant-design/icons";
-import { Card, Col, Form, Row } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Card, Col, Form, Row, Space } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
@@ -9,6 +9,7 @@ import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
 import { SuccessNotification } from "components/popup/Notifications";
+import PopDelete from "components/popup/PopDelete";
 import useFormHook from "hooks/useFormHook";
 import React, { useEffect, useState } from "react";
 import { Post } from "utils/CrudApi";
@@ -17,8 +18,8 @@ import { Operations } from "utils/constants";
 
 const initialValues = {
   OperationId: 1,
-  Id: 0,
-  CategoryId: 18,
+  Id: null,
+  CategoryId: 0,
   BranchId: 0,
   Name: "",
   ShortName: "",
@@ -40,13 +41,14 @@ export default function Subcategory() {
     formData,
     search,
     dataSet,
+    transformOptions
   } = useFormHook("SubCategory", initialValues);
 
   const columns = [
     {
       key: "1",
       title: "SubCategory Name",
-      dataIndex: "SubCategoryName",
+      dataIndex: "Name",
     },
     {
       key: "2",
@@ -55,32 +57,56 @@ export default function Subcategory() {
     },
     {
       key: "3",
-      title: "Is Active",
+      title: "Enabled",
       dataIndex: "Enabled",
+      render:(_,record) => record?.Enabled ? 'Yes':'No'
     },
+    // {
+    //   key: "4",
+    //   title: "Account Name",
+    //   dataIndex: "AccountName",
+    // },
     {
       key: "4",
-      title: "Account Name",
-      dataIndex: "AccountName",
+      title: "Action",
+      render: (_, record) => (
+        <Space>
+          {" "}
+          <ButtonComponent
+            icon={<EditOutlined />}
+            onClick={() => handleEdit(record)}
+          />{" "}
+          <PopDelete handleDelete={() => handleDelete(record)}>
+          <ButtonComponent
+            icon={<DeleteOutlined />}
+            // onClick={() => handleDelete(record)}
+            danger={true}
+          />{" "}
+          </PopDelete>
+        </Space>
+      ),
     },
   ];
+  
+ 
+
   const formFields = (
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Category Name"} name={"CategoryId"} />
+          <InputSelect label={"Category Name"} name={"CategoryId"} options={transformOptions(dataSet?.Table2)} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"SubCategory Name"} name={"Name"} />
+          <InputText label={"SubCategory Name"} name={"Name"} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"SubCategory Code"} name={"SubCategoryCode"} />
+          <InputText label={"SubCategory Code"} name={"ShortName"} required />
         </Col>
-        <Col xs={24} md={12} xl={8}>
+        {/* <Col xs={24} md={12} xl={8}>
           <InputSelect label={"Account"} name={"Account"} />
-        </Col>
+        </Col> */}
         <Col xs={3} md={3} xl={3} className="flex align-center">
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>

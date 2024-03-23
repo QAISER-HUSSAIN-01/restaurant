@@ -6,7 +6,7 @@ export default function InputSelect({
   name,
   disabled,
   required,
-  options
+  options=[]
 }) {
   return (
     <Form.Item
@@ -22,12 +22,7 @@ export default function InputSelect({
         showSearch
         disabled={disabled}
         // onChange={(val) => onChange(val, name)}
-        options={options || [
-          { value: "", label: "Select" },
-          { value: "1", label: "label one" },
-          { value: "2", label: "label two" },
-          { value: "3", label: "label three" },
-        ]}
+        options={[{label:'Select',value:0},...options] || []}
         filterOption={(input, option) => (option?.label ?? "").includes(input)}
         // filterSort={(optionA, optionB) =>
         //   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())

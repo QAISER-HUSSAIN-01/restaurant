@@ -17,9 +17,9 @@ import { Operations } from "utils/constants";
 
 const initialValues = {
   OperationId:1,
-  BranchId:43,
+  BranchId:0,
   Id: 0,
-  SubCategoryId: 8,
+  SubCategoryId: 0,
   Name: "",
   ItemCode: "",
   ItemTypeId: 0,
@@ -46,6 +46,7 @@ export default function Item() {
     formData,
     search,
     dataSet,
+    transformOptions
   } = useFormHook("Items", initialValues);
   const columns = [
     {
@@ -57,47 +58,48 @@ export default function Item() {
     {
       key: "2",
       title: "Item Code",
-      dataIndex: "CategoryName",
+      dataIndex: "ItemCode",
     },
     {
       key: "3",
       title: "Item Name",
-      dataIndex: "IsActive",
+      dataIndex: "Name",
     },
     {
       key: "4",
       title: "Purchase Unit",
-      dataIndex: "AccountName",
+      dataIndex: "PurchaseUnitName",
     },
     {
       key: "5",
       title: "Issuance Unit",
-      dataIndex: "AccountName",
+      dataIndex: "IssuanceUnitName",
     },
     {
       key: "6",
       title: "Recipe Unit",
-      dataIndex: "AccountName",
+      dataIndex: "RecipeUnitName",
     },
     {
       key: "7",
       title: "Purchase Issuance",
-      dataIndex: "AccountName",
+      dataIndex: "PurchaseIssuance",
     },
     {
       key: "8",
       title: "Issuance Recipe",
-      dataIndex: "AccountName",
+      dataIndex: "IssuanceRecipe",
     },
     {
       key: "9",
-      title: "Is Active",
-      dataIndex: "AccountName",
+      title: "Enabled",
+      dataIndex: "Enabled",
+      render: (_,record)=> record?.Enabled ? 'Yes':'No'
     },
     {
       key: "10",
       title: "Item type",
-      dataIndex: "AccountName",
+      dataIndex: "ItemTypeName",
     },
     {
       key: "11",
@@ -121,31 +123,31 @@ export default function Item() {
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Item Type"} name={"ItemTypeId"} />
+          <InputSelect label={"Item Type"} name={"ItemTypeId"} options={transformOptions(dataSet?.Table4)} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"SubCategory"} name={"SubCategoryId"} />
+          <InputSelect label={"SubCategory"} name={"SubCategoryId"} options={transformOptions(dataSet?.Table3)} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"Item Name"} name={"Name"} />
+          <InputText label={"Item Name"} name={"Name"} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"Item Code"} name={"ItemCode"} />
+          <InputText label={"Item Code"} name={"ItemCode"} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Purchase Unit"} name={"PurchaseUnitId"} />
+          <InputSelect label={"Purchase Unit"} name={"PurchaseUnitId"} options={transformOptions(dataSet?.Table5)} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Issuance Unit"} name={"IssuanceUnitId"} />
+          <InputSelect label={"Issuance Unit"} name={"IssuanceUnitId"} options={transformOptions(dataSet?.Table5)} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Recipe Unit"} name={"RecipeUnitId"} />
+          <InputSelect label={"Recipe Unit"} name={"RecipeUnitId"} options={transformOptions(dataSet?.Table5)} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"Purchase Issuance"} name={"PurchaseIssuance"} />
+          <InputText label={"Purchase Issuance"} name={"PurchaseIssuance"} type={'integer'} required />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"Issuance Recipe"} name={"IssuanceRecipe"} />
+          <InputText label={"Issuance Recipe"} name={"IssuanceRecipe"} type={'integer'} required />
         </Col>
         <Col xs={3} md={3} xl={3} className="flex align-center">
           <InputCheckbox label={"Enabled"} name={"Enabled"} />
@@ -190,6 +192,7 @@ export default function Item() {
       </Row>
     </>
   );
+
   return (
     <>
       <FormComponent

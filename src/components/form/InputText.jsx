@@ -8,9 +8,15 @@ export default function InputText({
   min,
   max,
   pattern,
+  type,
   required,
-  size
+  size,
 }) {
+  const others = type != 'integer' ? [
+    { min: min, message: `Minimum length must be ${min}` },
+    { max: max, message: `Maximum length must be ${max}` },
+    { pattern: pattern?.allow, message: pattern?.message },
+  ] : []
   return (
     <Form.Item
       label={label}
@@ -18,9 +24,10 @@ export default function InputText({
       // initialValue={value}
       rules={[
         { required: required, message: `${label} is required!` },
-        { min: min, message: `Minimum length must be ${min}` },
-        { max: max, message: `Maximum length must be ${max}` },
-        { pattern: pattern?.allow, message: pattern?.message },
+        ...others
+        // { min: min, message: `Minimum length must be ${min}` },
+        // { max: max, message: `Maximum length must be ${max}` },
+        // { pattern: pattern?.allow, message: pattern?.message },
       ]}
       className="ant-form-item-custom-style"
     >
@@ -28,7 +35,7 @@ export default function InputText({
         // onChangeCapture={(e) => onChange(e, validation)}  //uncomment to work with you own useState
         disabled={disabled}
         placeholder={placeholder || label}
-        size={size || 'middle'}
+        size={size || "middle"}
       />
     </Form.Item>
   );

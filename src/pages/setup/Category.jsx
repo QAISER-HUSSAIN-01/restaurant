@@ -53,7 +53,7 @@ export default function Category() {
     },
     {
       key: "3",
-      title: "Is Active",
+      title: "Enabled",
       dataIndex: "Enabled",
       render: (_, record) => <Checkbox checked={record.Enabled} />,
     },
@@ -83,13 +83,13 @@ export default function Category() {
     <>
       <Row gutter={[20, 0]}>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"Category Name"} name={"Name"} />
+          <InputText label={"Category Name"} name={"Name"} required={true} />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <InputText label={"Category Code"} name={"ShortName"} />
+          <InputText label={"Category Code"} name={"ShortName"} required={true} />
         </Col>
         <Col xs={3} md={3} xl={3} className="flex align-center">
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>
@@ -105,7 +105,7 @@ export default function Category() {
           <InputText label={"Category Code"} name={"ShortName"} />
         </Col>
         <Col xs={3} md={3} xl={3} className="flex align-center">
-          <InputCheckbox label={"Is Active"} name={"Enabled"} />
+          <InputCheckbox label={"Enabled"} name={"Enabled"} />
         </Col>
       </Row>
     </>

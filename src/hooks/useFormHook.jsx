@@ -14,7 +14,7 @@ export default function useFormHook(path, initialValues) {
   const [dataSet, setDataSet] = useState({});
   const [search] = Form.useForm();
   const [add] = Form.useForm();
-
+  
   const handleDrawer = (operation,row) => {
     setOpen(!open);
     const record = row || {}
@@ -70,7 +70,14 @@ export default function useFormHook(path, initialValues) {
     SuccessNotification(data?.Message);
     setDataSet(data?.DataSet);
   };
-
+  const transformOptions = (data)=>{
+    return data?.map(item=>{
+       return {
+         label:item?.Name,
+         value:item?.Id
+       }
+     })
+   }
   useEffect(() => {
     setIsTableLoading(true);
     const fetch = async () => {
@@ -95,6 +102,7 @@ export default function useFormHook(path, initialValues) {
     add,
     formData,
     dataSet,
+    transformOptions,
     handleDelete,
     handleSubmit,
     handleSearch,
