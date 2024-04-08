@@ -144,3 +144,6 @@ export const sidebarList = [
 
 ];
 
+
+
+export const  OPTIONS = [{value:'one',label:'One'},{value:'two',label:'Two'},{value:'three',label:'Three'}]

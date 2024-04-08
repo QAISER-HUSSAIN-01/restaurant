@@ -1,5 +1,5 @@
 import { EditOutlined } from "@ant-design/icons";
-import { Checkbox, Col, Form, Row } from "antd";
+import { Checkbox, Col, Form, Row, Input } from "antd";
 import ButtonComponent from "components/ButtonComponent";
 import DrawerComponent from "components/DrawerComponent";
 import TableComponent from "components/TableComponent";
@@ -9,9 +9,11 @@ import FormComponent from "components/form/FormComponent";
 import InputCheckbox from "components/form/InputCheckbox";
 import InputSelect from "components/form/InputSelect";
 import InputText from "components/form/InputText";
+import InventoryForm from "components/form/InventoryForm";
 import useFormHook from "hooks/useFormHook";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Operations } from "utils/constants";
+import { OPTIONS } from "utils/dummy";
 
 export default function OpeningInventory() {
   const initialValues = {
@@ -22,9 +24,12 @@ export default function OpeningInventory() {
     HeadOffice: true,
     Enabled: true,
     Deleted: true,
+    OperationId: 2,
   };
   const { getColumnSearchProps, sort, sortString } = TableConfig();
   const {
+    firstFieldRef,
+    tempRows,
     isLoading,
     isTableLoading,
     handleDelete,
@@ -32,14 +37,16 @@ export default function OpeningInventory() {
     handleEdit,
     handleSearch,
     handleSubmit,
+    handleAdd,
+    handleSubmitAll,
     open,
     add,
     formData,
     search,
     dataSet,
+    inputRef
   } = useFormHook("Branch", initialValues);
- 
-
+  
   const columns = [
     {
       key: "1",
@@ -68,6 +75,24 @@ export default function OpeningInventory() {
     },
   ];
 
+  const columns2 = [
+    {
+      key: "1",
+      title: "Branch",
+      dataIndex: "Name",
+    },
+    {
+      key: "2",
+      title: "Department Name",
+      dataIndex: "ShortName",
+    },
+    {
+      key: "3",
+      title: "Opening Date",
+      dataIndex: "UniqueId",
+    },
+  ];
+
   const searchFields = (
     <>
       <Row gutter={[20, 0]}>
@@ -85,22 +110,32 @@ export default function OpeningInventory() {
   );
 
   const formFields = (
-    <>
-      <Row gutter={[20, 0]}>
-        <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Branch"} name={"Branch"} />
-        </Col>
-        <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Department Name"} name={"ShortName"} />
-        </Col>
-        <Col xs={24} md={12} xl={8}>
-          <InputSelect label={"Opening Date"} name={"ShortName"} />
-        </Col>
-      </Row>
-    </>
+    <Row gutter={[20, 0]}>
+      <Col xs={24} md={12} xl={8}>
+        <InputSelect
+          label={"Branch"}
+          name={"Name"}
+          options={OPTIONS}
+          myRef={inputRef}
+        />
+      </Col>
+      <Col xs={24} md={12} xl={8}>
+        <InputSelect
+          label={"Department Name"}
+          name={"ShortName"}
+          options={OPTIONS}
+        />
+      </Col>
+      <Col xs={24} md={12} xl={8}>
+        <InputSelect
+          label={"Opening Date"}
+          name={"UniqueId"}
+          options={OPTIONS}
+        />
+      </Col>
+    </Row>
   );
 
-  
   return (
     // <Card>
     // <BasicCrud
@@ -118,7 +153,7 @@ export default function OpeningInventory() {
     //   handleDrawer={handleDrawer}
     //   isDrawerOpen={isDrawerOpen}
     //   isFormLoading={isFormLoading}
-    //   isTableLoading={isTableLoading}  
+    //   isTableLoading={isTableLoading}
     // />
     <>
       <FormComponent
@@ -135,21 +170,47 @@ export default function OpeningInventory() {
             icon={<EditOutlined />}
             text={"Add"}
             size={"small"}
-            onClick={()=>handleDrawer(Operations.Insert)}
+            onClick={() => handleDrawer(Operations.Insert)}
           />
         }
       />
+
       <br />
-      <TableComponent columns={columns || []} rows={dataSet?.Table1 || []} title={'Opening Inventory List'} />
-      <DrawerComponent onClose={()=>handleDrawer(Operations.Select)} open={open}>
-        <FormComponent
+      <TableComponent
+        columns={columns || []}
+        rows={dataSet?.Table1 || []}
+        title={"Opening Inventory List"}
+        loading={isTableLoading}
+      />
+
+      <DrawerComponent
+        onClose={() => handleDrawer(Operations.Select)}
+        open={open}
+        width={1000}
+      >
+        <InventoryForm
           children={formFields}
-          handleSubmit={handleSubmit}
+          handleSubmit={handleAdd}
           form={add}
-          submit={formData?.OperationId == Operations.Update ? "Update" : "Save"}
+          submit={formData?.OperationId == Operations.Update ? "Update" : "Add"}
           isLoading={isLoading}
           initialValues={initialValues}
         />
+
+        <TableComponent
+          columns={columns2 || []}
+          rows={tempRows || []}
+          title={"Opening Inventory List"}
+          header={true}
+        />
+
+        <Row justify={"end"} className="pt-5">
+          <ButtonComponent
+            loading={isLoading}
+            text={"Save All"}
+            onClick={handleSubmitAll}
+          />
+        </Row>
       </DrawerComponent>
     </>
     // </Card>

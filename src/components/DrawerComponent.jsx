@@ -5,7 +5,8 @@ export default function DrawerComponent(props) {
   return (
       <Drawer
         title="Add"
-        width={600}
+        width={props?.width || 600}
+        // size="large"
         onClose={props?.onClose}
         open={props?.open}
       >
