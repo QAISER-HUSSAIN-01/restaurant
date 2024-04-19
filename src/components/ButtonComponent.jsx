@@ -15,6 +15,7 @@ export default function ButtonComponent({
   return (
     <Tooltip title={tooltip}>
       <Button
+        // type={type || "primary"}
         type={type || "primary"}
         size={size}
         loading={loading}
@@ -23,6 +24,7 @@ export default function ButtonComponent({
         shape={shape}
         onClick={onClick}
         danger={danger}
+        
       >
         {text}
       </Button>

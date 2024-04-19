@@ -12,14 +12,13 @@ export default function useFormHook(path, initialValues) {
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [formData, setFormData] = useState(initialValues);
   const [dataSet, setDataSet] = useState({});
-  const [tempRows, setTempRows] = useState([]);
+  const [tempRows, setTempRows] = useState([{ItemCode:'B65CD',Name:'Drink',Unit:'',Qty:'',Rate:''}]);
   const [search] = Form.useForm();
   const [add] = Form.useForm();
 
   const inputRef = useRef(null);
   
   useEffect(() => {
-    console.log('run');
     if (inputRef.current) {
       inputRef?.current?.focus();
     }

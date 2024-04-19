@@ -9,6 +9,7 @@ export default function DrawerComponent(props) {
         // size="large"
         onClose={props?.onClose}
         open={props?.open}
+        extra={props?.extra}
       >
         {props?.children}
       </Drawer>
